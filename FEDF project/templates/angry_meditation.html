@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guided Meditation Timer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <style>
+        .meditation-card {
+            background: #f6fffc;
+            border-left: 10px solid #20c997;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(32,201,151,0.10);
+            padding: 40px 36px 32px 36px;
+            max-width: 480px;
+            width: 100%;
+            margin: 60px auto;
+            text-align: center;
+        }
+        .meditation-title {
+            color: #20c997;
+            margin-bottom: 18px;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+        .timer-display {
+            font-size: 2.5em;
+            color: #20c997;
+            margin: 32px 0 18px 0;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .start-btn {
+            padding: 12px 36px;
+            background: #20c997;
+            color: #fff;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 18px;
+        }
+        .start-btn:hover {
+            background: #138f6a;
+        }
+        .back-btn {
+            display: block;
+            margin: 32px auto 0 auto;
+            padding: 12px 36px;
+            background: #20c997;
+            color: #fff;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: background 0.2s;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(32,201,151,0.10);
+        }
+        .back-btn:hover {
+            background: #138f6a;
+        }
+    </style>
+</head>
+<body>
+    <div class="meditation-card">
+        <h2 class="meditation-title">Guided Meditation Timer</h2>
+        <label for="duration" style="font-weight:600; color:#20c997; margin-bottom:10px; display:block;">Select Duration:</label>
+        <select id="duration" style="font-size:1.1em; padding:8px 18px; border-radius:8px; border:1.5px solid #20c997; margin-bottom:18px;">
+            <option value="5">5 minutes</option>
+            <option value="10">10 minutes</option>
+            <option value="15">15 minutes</option>
+            <option value="20">20 minutes</option>
+        </select>
+        <div class="timer-display" id="timer">05:00</div>
+        <button class="start-btn" id="startBtn">Start Meditation</button>
+        <a href="{{ url_for('angry_tasks_level', level=4) }}" class="back-btn">&#8592; Back to Strong Tasks</a>
+    </div>
+    <script>
+        let timer;
+        let timeLeft = 300;
+        const timerDisplay = document.getElementById('timer');
+        const startBtn = document.getElementById('startBtn');
+        const durationSelect = document.getElementById('duration');
+        function updateTimer() {
+            const min = Math.floor(timeLeft / 60);
+            const sec = timeLeft % 60;
+            timerDisplay.textContent = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        }
+        function startTimer() {
+            startBtn.disabled = true;
+            durationSelect.disabled = true;
+            timer = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateTimer();
+                } else {
+                    clearInterval(timer);
+                    timerDisplay.textContent = "Meditation Complete!";
+                }
+            }, 1000);
+        }
+        durationSelect.onchange = function() {
+            timeLeft = parseInt(durationSelect.value) * 60;
+            updateTimer();
+        };
+        startBtn.onclick = startTimer;
+        updateTimer();
+    </script>
+</body>
+</html>

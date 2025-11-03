@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calm Music</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <style>
+        .music-card {
+            background: #f6fffc;
+            border-left: 10px solid #20c997;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(32,201,151,0.10);
+            padding: 40px 36px 32px 36px;
+            max-width: 480px;
+            width: 100%;
+            margin: 60px auto;
+        }
+        .music-title {
+            color: #20c997;
+            margin-bottom: 18px;
+            font-size: 1.3em;
+            text-align: center;
+            font-weight: 700;
+        }
+        .music-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 18px;
+        }
+        .music-item {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(32,201,151,0.08);
+            padding: 18px 24px;
+            font-size: 1.1em;
+            color: #20c997;
+            display: flex;
+            align-items: center;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .music-item:hover {
+            background: #eafff7;
+            box-shadow: 0 4px 16px rgba(32,201,151,0.18);
+        }
+        .music-link {
+            color: #20c997;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+        .music-link:hover {
+            text-decoration: underline;
+        }
+        .back-btn {
+            display: block;
+            margin: 32px auto 0 auto;
+            padding: 12px 36px;
+            background: #20c997;
+            color: #fff;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: background 0.2s;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(32,201,151,0.10);
+        }
+        .back-btn:hover {
+            background: #138f6a;
+        }
+    </style>
+</head>
+<body>
+    <div class="music-card">
+        <h2 class="music-title">Calm Music Playlist</h2>
+        <div class="music-list">
+            <div class="music-item"><a class="music-link" href="https://www.youtube.com/watch?v=2OEL4P1Rz04" target="_blank">Relaxing Piano Music</a></div>
+            <div class="music-item"><a class="music-link" href="https://www.youtube.com/watch?v=1ZYbU82GVz4" target="_blank">Calm Nature Sounds</a></div>
+            <div class="music-item"><a class="music-link" href="https://www.youtube.com/watch?v=iqpAF9vBvQE" target="_blank">Peaceful Guitar</a></div>
+            <div class="music-item"><a class="music-link" href="https://www.youtube.com/watch?v=1j5U4k8VZzQ" target="_blank">Soothing Ambient</a></div>
+            <div class="music-item"><a class="music-link" href="https://open.spotify.com/playlist/37i9dQZF1DX3PIPIT6lEg5" target="_blank">Spotify: Peaceful Piano</a></div>
+        </div>
+        <a href="{{ url_for('angry_tasks_level', level=2) }}" class="back-btn" style="margin-top:24px;">&#8592; Back to Mild Tasks</a>
+    </div>
+</body>
+</html>

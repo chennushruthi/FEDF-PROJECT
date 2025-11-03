@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal 3 Things You're Grateful For</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e0c3fc 100%);
+            min-height: 100vh;
+        }
+        .gratitude-board {
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 12px 40px rgba(111,66,193,0.15);
+            padding: 2.5rem 2rem 2rem 2rem;
+            max-width: 520px;
+            margin: 60px auto;
+            position: relative;
+        }
+        .gratitude-board h2 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #4b2e83;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            border-radius: 12px;
+            border: 2px solid #a084e8;
+            padding: 16px;
+            font-size: 1.1em;
+            margin-bottom: 18px;
+            background: #f8f6ff;
+            box-shadow: 0 2px 8px rgba(160,132,232,0.07);
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+        textarea:focus {
+            border-color: #6f42c1;
+            outline: none;
+        }
+        .gratitude-controls {
+            text-align: center;
+        }
+        .gratitude-controls button {
+            background: linear-gradient(90deg, #a084e8 0%, #6f42c1 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 38px;
+            font-size: 1.15em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 12px rgba(111,66,193,0.10);
+            margin-top: 10px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .gratitude-controls button:hover {
+            background: linear-gradient(90deg, #6f42c1 0%, #a084e8 100%);
+            transform: scale(1.04);
+        }
+        .gratitude-success {
+            color: #6f42c1;
+            margin-top: 18px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <nav class="nav">
+            <div class="logo"><a href="{{ url_for('home') }}">🌿 Digital Detox</a></div>
+            <div class="nav-links">
+                <a href="{{ url_for('sad_tasks') }}">← Back to Sad Tasks</a>
+            </div>
+        </nav>
+        <div class="gratitude-board">
+            <h2 style="text-align:center;">Journal 3 Things You're Grateful For</h2>
+            <form method="POST">
+                <textarea name="note_text" rows="5" placeholder="Write 3 things you're grateful for..." required></textarea>
+                <div class="gratitude-controls">
+                    <button type="submit">Save</button>
+                </div>
+                {% if message %}
+                <div class="gratitude-success">{{ message }}</div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</body>
+</html>

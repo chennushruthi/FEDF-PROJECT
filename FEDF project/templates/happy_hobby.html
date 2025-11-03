@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Hobby</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <style>
+        .hobby-card { background:#fff; border-radius:14px; box-shadow:0 4px 16px rgba(233,30,99,0.10); padding:22px 24px; display:flex; align-items:center; gap:18px; cursor:pointer; transition:box-shadow 0.2s,transform 0.2s; border:2px solid #e91e63; margin-bottom:18px; }
+        .hobby-card:hover { box-shadow:0 8px 32px rgba(233,30,99,0.18),0 2px 8px rgba(0,0,0,0.04); transform:translateY(-2px) scale(1.03); }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <nav class="nav">
+            <div class="logo"><a href="{{ url_for('home') }}">🌿 Digital Detox</a></div>
+            <div class="nav-links">
+                <a href="{{ url_for('happy_tasks') }}">← Back to Happy Tasks</a>
+            </div>
+        </nav>
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h2>Choose Your Hobby</h2>
+            </div>
+            <div class="hobby-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:32px; max-width:700px; margin:0 auto; margin-top:32px;">
+                <a href="{{ url_for('happy_drawing') }}" class="hobby-card" style="background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(233,30,99,0.10); padding:36px 0; display:flex; flex-direction:column; align-items:center; justify-content:center; border:2px solid #ff4081; text-decoration:none; transition:box-shadow 0.2s,transform 0.2s;">
+                    <span style="font-size:2.5em; margin-bottom:18px; color:#ff4081;">🖌️</span>
+                    <span style="font-size:1.25em; font-weight:600; color:#ff4081;">Drawing</span>
+                </a>
+                <a href="https://open.spotify.com/" target="_blank" class="hobby-card" style="background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(63,81,181,0.10); padding:36px 0; display:flex; flex-direction:column; align-items:center; justify-content:center; border:2px solid #3f51b5; text-decoration:none; transition:box-shadow 0.2s,transform 0.2s;">
+                    <span style="font-size:2.5em; margin-bottom:18px; color:#3f51b5;">🎵</span>
+                    <span style="font-size:1.25em; font-weight:600; color:#3f51b5;">Music</span>
+                </a>
+                <a href="https://github.com/" target="_blank" class="hobby-card" style="background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(0,150,136,0.10); padding:36px 0; display:flex; flex-direction:column; align-items:center; justify-content:center; border:2px solid #009688; text-decoration:none; transition:box-shadow 0.2s,transform 0.2s; grid-column:span 2;">
+                    <span style="font-size:2.5em; margin-bottom:18px; color:#009688;">💻</span>
+                    <span style="font-size:1.25em; font-weight:600; color:#009688;">Coding Mini-Project</span>
+                </a>
+            </div>
+            <style>
+            .hobby-card:hover {
+                box-shadow:0 8px 32px rgba(233,30,99,0.18),0 2px 8px rgba(0,0,0,0.04);
+                transform:translateY(-2px) scale(1.04);
+            }
+            </style>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <title>My Progress</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    body { background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); min-height: 100vh; }
+    .progress-container { max-width: 1000px; margin: 40px auto 120px auto; background: #fff; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); padding: 48px 40px; }
+    .progress-title { text-align: center; color: #9c27b0; font-size: 2.8rem; font-weight: 800; margin-bottom: 40px; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(156,39,176,0.2); }
+    .progress-section { margin-bottom: 32px; background: linear-gradient(135deg, #f3e5f5 0%, #f8f4f9 100%); border-radius: 16px; box-shadow: 0 4px 12px rgba(156,39,176,0.12); padding: 28px 24px; border-left: 6px solid #9c27b0; transition: transform 0.2s, box-shadow 0.2s; }
+    .progress-section:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(156,39,176,0.18); }
+    .progress-section h3 { color: #7b1fa2; font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+    .progress-bar { width: 100%; background: #f5f5f5; border-radius: 12px; overflow: hidden; height: 32px; margin-bottom: 16px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); }
+    .progress-bar-inner { height: 100%; background: linear-gradient(90deg,#9c27b0,#ba68c8); text-align: center; color: #fff; font-weight: 700; line-height: 32px; font-size: 1.1em; transition: width 0.6s ease; box-shadow: 0 2px 6px rgba(156,39,176,0.3); }
+    .circular-chart { display: inline-block; width: 140px; height: 140px; }
+    .pie-chart { display: block; margin: 20px auto; max-width: 400px; }
+    .badge { display: inline-block; background: linear-gradient(135deg,#ce93d8,#e1bee7); color: #6a1b9a; border-radius: 16px; padding: 10px 24px; font-weight: 700; margin: 10px 6px; font-size: 1.1em; box-shadow: 0 3px 8px rgba(156,39,176,0.25); border: 2px solid #ab47bc; transition: transform 0.2s, box-shadow 0.2s; }
+    .badge:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(156,39,176,0.35); }
+    .reflection-note { background: #e3f2fd; border-radius: 10px; padding: 14px; margin-bottom: 12px; font-size: 1.12rem; color: #1976d2; }
+    .summary-box { background: linear-gradient(90deg,#e3f2fd,#fffde7); border-radius: 10px; padding: 22px; margin-bottom: 22px; font-size: 1.18rem; color: #1976d2; font-weight: 600; box-shadow: 0 1px 4px rgba(33,150,243,0.09); }
+     .habit-list { margin-top: 20px; }
+     .habit-item { background: linear-gradient(135deg, #e3f2fd 0%, #f0f8ff 100%); border-radius: 14px; padding: 24px 26px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(33,150,243,0.15); display: flex; align-items: center; gap: 20px; flex-wrap: wrap; border-left: 5px solid #29b6f6; transition: transform 0.2s, box-shadow 0.2s; }
+     .habit-item:hover { transform: translateX(4px); box-shadow: 0 6px 16px rgba(33,150,243,0.22); }
+     .habit-item span { font-size: 1.18em; color: #0d47a1; }
+     .habit-item form { margin: 0; }
+     .habit-item .progress-bar { width: 200px; margin: 0 12px; background: #bbdefb; height: 28px; }
+     .habit-item .progress-bar-inner { background: linear-gradient(90deg,#29b6f6,#64b5f6); color: #fff; line-height: 28px; box-shadow: 0 2px 6px rgba(41,182,246,0.4); }
+     .habit-item .streak { margin-left: 12px; color: #1976d2; font-weight: 700; font-size: 1.05em; }
+     .habit-item .log-btn { margin-left: 12px; background: linear-gradient(135deg, #29b6f6, #42a5f5); color: #fff; border: none; border-radius: 10px; padding: 8px 18px; font-size: 1.05em; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 3px 8px rgba(41,182,246,0.3); font-weight: 600; }
+     .habit-item .log-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 12px rgba(41,182,246,0.45); background: linear-gradient(135deg, #42a5f5, #29b6f6); }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-title"><i class="fas fa-chart-line"></i> My Progress</div>
+        <div class="progress-section">
+                <div style="margin-bottom:18px;">
+                    <span style="font-weight:600;"><i class="fas fa-medal" style="color:#ffd700;margin-right:8px;"></i>Challenge Completion Badge:</span>
+                    {% if personal_bests['Challenge Badge'] == 'gold' %}
+                        <span class="badge" style="background:linear-gradient(90deg,#fffbe5,#ffe066 60%,#ffd700 100%);color:#bfa600;border-radius:14px;padding:10px 28px;font-weight:800;font-size:1.15em;box-shadow:0 2px 8px rgba(255,215,0,0.18);margin-left:12px;border:2px solid #ffd700;letter-spacing:1px;">
+                            <i class="fas fa-trophy" style="color:#ffd700;margin-right:8px;font-size:1.2em;"></i>Gold
+                        </span>
+                    {% elif personal_bests['Challenge Badge'] == 'silver' %}
+                        <span class="badge" style="background:linear-gradient(90deg,#f8f9fa,#e0e0e0 60%,#c0c0c0 100%);color:#888;border-radius:14px;padding:10px 28px;font-weight:800;font-size:1.15em;box-shadow:0 2px 8px rgba(192,192,192,0.18);margin-left:12px;border:2px solid #c0c0c0;letter-spacing:1px;">
+                            <i class="fas fa-trophy" style="color:#c0c0c0;margin-right:8px;font-size:1.2em;"></i>Silver
+                        </span>
+                    {% elif personal_bests['Challenge Badge'] == 'bronze' %}
+                        <span class="badge" style="background:linear-gradient(90deg,#fff8e1,#e6b07a 60%,#cd7f32 100%);color:#a0522d;border-radius:14px;padding:10px 28px;font-weight:800;font-size:1.15em;box-shadow:0 2px 8px rgba(205,127,50,0.18);margin-left:12px;border:2px solid #cd7f32;letter-spacing:1px;">
+                            <i class="fas fa-trophy" style="color:#cd7f32;margin-right:8px;font-size:1.2em;"></i>Bronze
+                        </span>
+                    {% else %}
+                        <span class="badge" style="background:linear-gradient(90deg,#eee,#fffde7);color:#333;border-radius:14px;padding:10px 28px;font-weight:700;font-size:1.08em;box-shadow:0 1px 4px rgba(255,193,7,0.09);margin-left:12px;">
+                            <i class="fas fa-trophy" style="color:#bbb;margin-right:8px;font-size:1.2em;"></i>No Badge Yet
+                        </span>
+                    {% endif %}
+                </div>
+            <h3><i class="fas fa-fire"></i> Daily/Weekly Streaks</h3>
+            <div id="streaks">Streak: <span id="current-streak">0</span> days | Longest: <span id="longest-streak">0</span> days</div>
+        </div>
+        <div class="progress-section">
+            <h3><i class="fas fa-tasks"></i> Completion Rate</h3>
+            <div class="progress-bar"><div class="progress-bar-inner" id="completion-bar" style="width: 0%">0%</div></div>
+        </div>
+        <div class="progress-section">
+            <h3><i class="fas fa-star"></i> Points / Rewards</h3>
+            <div class="badge">Points: <span id="points">{{ points }}</span></div>
+            <div class="badge">Challenges Completed: <span id="completed-count">{{ completed_count }}</span></div>
+            <div class="badge">Level: <span id="level">{{ level }}</span></div>
+    {% set level_percent = (points/(next_level_points))*100 if next_level_points else 0 %}
+                <div class="progress-bar"><div class="progress-bar-inner" id="level-bar" style="width:{{ level_percent|round(0) }}%">{{ points }}/{{ next_level_points }} to next level</div></div>
+            {% if badges %}
+            <div style="margin-top:10px;">
+                {% for badge in badges %}
+                    <span class="badge"><i class="fas fa-trophy" style="color:#7b1fa2;margin-right:6px;"></i>{{ badge }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if unlockables %}
+            <div style="margin-top:10px;">
+                <strong>Unlockables:</strong>
+                {% for item in unlockables %}
+                    <span class="badge"><i class="fas fa-gift" style="color:#9c27b0;margin-right:6px;"></i>{{ item }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="progress-section">
+            <h3><i class="fas fa-smile"></i> Mood Tracker</h3>
+            <form method="POST" action="/features/progress/mood" style="margin-bottom:18px;display:flex;align-items:center;gap:18px;">
+                <label for="mood-rating" style="font-weight:600;">Rate your mood today:</label>
+                <select name="mood_rating" id="mood-rating" style="font-size:1.1em;padding:6px 12px;border-radius:8px;border:1px solid #9c27b0;">
+                    <option value="5">😃 Very Happy</option>
+                    <option value="4">😊 Happy</option>
+                    <option value="3">😐 Neutral</option>
+                    <option value="2">😔 Sad</option>
+                    <option value="1">😢 Very Sad</option>
+                </select>
+                <select name="mood_type" style="font-size:1.1em;padding:6px 12px;border-radius:8px;border:1px solid #9c27b0;">
+                    <option value="happy">Happy</option>
+                    <option value="calm">Calm</option>
+                    <option value="energetic">Energetic</option>
+                    <option value="stressed">Stressed</option>
+                    <option value="tired">Tired</option>
+                </select>
+                <button type="submit" style="background:#9c27b0;color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:1em;cursor:pointer;">Save Mood</button>
+            </form>
+            <div style="margin-bottom:18px;">
+                <canvas id="moodChart" width="400" height="120"></canvas>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+var moodData = {{ mood_chart|tojson|safe }};
+var moodInsight = {{ mood_insight|tojson|safe }};
+window.addEventListener('DOMContentLoaded', function() {
+    var chartCanvas = document.getElementById('moodChart');
+    if (!chartCanvas._chartInitialized) {
+        var ctx = chartCanvas.getContext('2d');
+        var labels = Array.isArray(moodData) ? moodData.map(function(m) { return m.date; }) : [];
+        var ratings = Array.isArray(moodData) ? moodData.map(function(m) { return m.rating; }) : [];
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Mood Rating',
+                    data: ratings,
+                    borderColor: '#9c27b0',
+                    backgroundColor: 'rgba(156,39,176,0.15)',
+                    tension: 0.3,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#9c27b0',
+                }]
+            },
+            options: {
+                scales: {
+                    y: { min: 1, max: 5, title: { display: true, text: 'Mood (1–5)' } },
+                    x: { title: { display: true, text: 'Date' } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+        chartCanvas._chartInitialized = true;
+    }
+    // Show insights
+    document.getElementById('mood-insights').innerText = typeof moodInsight === 'string' ? moodInsight : '';
+});
+                </script>
+            </div>
+            <div id="mood-insights" style="background:#e3f2fd;border-radius:8px;padding:14px;margin-bottom:10px;color:#1976d2;font-size:1.08em;font-weight:500;"></div>
+        </div>
+        <div class="progress-section">
+            <h3><i class="fas fa-check-circle"></i> Habit Tracker</h3>
+            <div class="habit-list">
+                <div class="habit-item">
+                    <span style="font-weight:600;">Water</span>
+                    <span style="margin-left:10px;">Glasses drunk: <span id="water-count">{{ habits_today.water }}</span> / {{ habits_goal.water }}</span>
+                    <button id="add-water-btn" type="button" style="background:#29b6f6;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:1em;cursor:pointer;margin-left:10px;">Add Count</button>
+                    <div class="progress-bar" style="margin-top:8px;width:220px;display:inline-block;vertical-align:middle;">
+    {% set water_percent = ((habits_today.water/habits_goal.water)*100)|round(0) if habits_goal.water else 0 %}
+                        <div class="progress-bar-inner" id="water-bar" style="width:{{ water_percent }}%">{{ water_percent }}%</div>
+                    </div>
+                    <span style="margin-left:16px;color:#1976d2;font-weight:500;">Streak: {{ habits_streak.water }} days</span>
+                    <script>
+                    document.getElementById('add-water-btn').onclick = function() {
+                        fetch('/features/habit/log/water', {
+                            method: 'POST',
+                            headers: {'X-Requested-With': 'XMLHttpRequest'}
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            let countSpan = document.getElementById('water-count');
+                            let newCount = data.count;
+                            countSpan.textContent = newCount;
+                            let goal = Number('{{ habits_goal.water }}');
+                            let percent = Math.round((newCount/goal)*100);
+                            document.getElementById('water-bar').style.width = percent + '%';
+                            document.getElementById('water-bar').textContent = percent + '%';
+                        });
+                    };
+                    </script>
+                </div>
+                <div class="habit-item" style="margin-top:18px;">
+                    <span style="font-weight:600;">Meditation</span>
+                    <span style="margin-left:10px;" id="meditation-status">{{ 'Done' if habits_today.meditation else 'Not done' }}</span>
+                    <button id="log-meditation-btn" type="button" style="background:#66bb6a;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:1em;cursor:pointer;margin-left:10px;">Log</button>
+                    <span style="margin-left:16px;color:#1976d2;font-weight:500;">Streak: {{ habits_streak.meditation }} days</span>
+                    <script>
+                    document.getElementById('log-meditation-btn').onclick = function() {
+                        fetch('/features/habit/log/meditation', {
+                            method: 'POST',
+                            headers: {'X-Requested-With': 'XMLHttpRequest'}
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.done) {
+                                document.getElementById('meditation-status').textContent = 'Done';
+                            }
+                        });
+                    };
+                    </script>
+                </div>
+                <div class="habit-item" style="margin-top:18px;">
+                    <span style="font-weight:600;">Reading</span>
+                    <span style="margin-left:10px;" id="reading-status">{{ 'Done' if habits_today.reading else 'Not done' }}</span>
+                    <button id="log-reading-btn" type="button" style="background:#ffa000;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:1em;cursor:pointer;margin-left:10px;">Log</button>
+                    <span style="margin-left:16px;color:#1976d2;font-weight:500;">Streak: {{ habits_streak.reading }} days</span>
+                    <script>
+                    document.getElementById('log-reading-btn').onclick = function() {
+                        fetch('/features/habit/log/reading', {
+                            method: 'POST',
+                            headers: {'X-Requested-With': 'XMLHttpRequest'}
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.done) {
+                                document.getElementById('reading-status').textContent = 'Done';
+                            }
+                        });
+                    };
+                    </script>
+                </div>
+            </div>
+            <div style="margin-top:18px;">
+                <strong>Notifications / Alerts:</strong> <br>
+                <span style="color:#ffa000;">Push notifications and reminders can be scheduled based on your preferences.</span>
+            </div>
+            <div style="margin-top:18px;">
+                <strong>Smart Device Integration:</strong> <br>
+                <span style="color:#29b6f6;">If you have a smart device, hydration/activity data can be synced and displayed here.</span>
+            </div>
+        </div>
+        <div class="progress-section">
+            <h3><i class="fas fa-trophy"></i> Personal Bests</h3>
+            <div id="personal-bests" style="margin-top:18px;">
+                <div style="margin-bottom:18px;">
+                    <span style="font-weight:600;"><i class="fas fa-fire" style="color:#ff7043;margin-right:8px;"></i>Longest Streak</span>
+                    <div class="progress-bar" style="width:300px;display:inline-block;margin-left:12px;vertical-align:middle;">
+                            {% set longest_streak_percent = (personal_bests['Longest Streak']/30)*100 if personal_bests['Longest Streak'] else 0 %}
+                            <div class="progress-bar-inner" style="width:{{ longest_streak_percent|round(0) }}%;background:#ff7043;">{{ personal_bests['Longest Streak'] }} days</div>
+                    </div>
+                </div>
+                <div style="margin-bottom:18px;">
+                    <span style="font-weight:600;"><i class="fas fa-tasks" style="color:#43a047;margin-right:8px;"></i>Challenges Completed (Week)</span>
+                    <div class="progress-bar" style="width:300px;display:inline-block;margin-left:12px;vertical-align:middle;">
+                            {% set week_challenges_percent = (personal_bests['Challenges Completed (Week)']/14)*100 if personal_bests['Challenges Completed (Week)'] else 0 %}
+                            <div class="progress-bar-inner" style="width:{{ week_challenges_percent|round(0) }}%;background:#43a047;">{{ personal_bests['Challenges Completed (Week)'] }}</div>
+                    </div>
+                </div>
+                <div style="margin-bottom:18px;">
+                    <span style="font-weight:600;"><i class="fas fa-calendar-week" style="color:#1976d2;margin-right:8px;"></i>Challenges Completed (Month)</span>
+                    <div class="progress-bar" style="width:300px;display:inline-block;margin-left:12px;vertical-align:middle;">
+                            {% set month_challenges_percent = (personal_bests['Challenges Completed (Month)']/60)*100 if personal_bests['Challenges Completed (Month)'] else 0 %}
+                            <div class="progress-bar-inner" style="width:{{ month_challenges_percent|round(0) }}%;background:#1976d2;">{{ personal_bests['Challenges Completed (Month)'] }}</div>
+                    </div>
+                </div>
+                <div style="margin-bottom:18px;">
+                    <span style="font-weight:600;"><i class="fas fa-glass-water" style="color:#29b6f6;margin-right:8px;"></i>Water Habit (Week)</span>
+                    <div class="progress-bar" style="width:220px;display:inline-block;margin-left:12px;vertical-align:middle;">
+                            {% set water_habit_percent = (personal_bests['Habits Logged (Week)']['water']/7)*100 if personal_bests['Habits Logged (Week)']['water'] else 0 %}
+                            <div class="progress-bar-inner" style="width:{{ water_habit_percent|round(0) }}%;background:#29b6f6;">{{ personal_bests['Habits Logged (Week)']['water'] }} days</div>
+                    </div>
+                </div>
+                <div style="margin-bottom:18px;">
+                    <span style="font-weight:600;"><i class="fas fa-brain" style="color:#66bb6a;margin-right:8px;"></i>Meditation (Week)</span>
+                    <div class="progress-bar" style="width:220px;display:inline-block;margin-left:12px;vertical-align:middle;">
+                            {% set meditation_habit_percent = (personal_bests['Habits Logged (Week)']['meditation']/7)*100 if personal_bests['Habits Logged (Week)']['meditation'] else 0 %}
+                            <div class="progress-bar-inner" style="width:{{ meditation_habit_percent|round(0) }}%;background:#66bb6a;">{{ personal_bests['Habits Logged (Week)']['meditation'] }} days</div>
+                    </div>
+                </div>
+                <div style="margin-bottom:18px;">
+                    <span style="font-weight:600;"><i class="fas fa-book-open" style="color:#ffa000;margin-right:8px;"></i>Reading (Week)</span>
+                    <div class="progress-bar" style="width:220px;display:inline-block;margin-left:12px;vertical-align:middle;">
+                            {% set reading_habit_percent = (personal_bests['Habits Logged (Week)']['reading']/7)*100 if personal_bests['Habits Logged (Week)']['reading'] else 0 %}
+                            <div class="progress-bar-inner" style="width:{{ reading_habit_percent|round(0) }}%;background:#ffa000;">{{ personal_bests['Habits Logged (Week)']['reading'] }} days</div>
+                    </div>
+                </div>
+                <div style="margin-bottom:18px;">
+                    <span style="font-weight:600;"><i class="fas fa-smile" style="color:#ffb300;margin-right:8px;"></i>Highest Avg Mood (Week)</span>
+                    <div class="progress-bar" style="width:220px;display:inline-block;margin-left:12px;vertical-align:middle;">
+                            {% set avg_mood_percent = (personal_bests['Highest Avg Mood (Week)']/5)*100 if personal_bests['Highest Avg Mood (Week)'] else 0 %}
+                            <div class="progress-bar-inner" style="width:{{ avg_mood_percent|round(0) }}%;background:#ffb300;">{{ personal_bests['Highest Avg Mood (Week)'] }} / 5</div>
+                    </div>
+                </div>
+                <div style="margin-top:18px;">
+                    <strong>Milestones:</strong>
+                    {% for milestone in milestones %}
+                        {% if milestone.count >= 10 %}
+                            <span class="badge" style="margin:6px 8px 0 0;display:inline-block;background:linear-gradient(90deg,#fffbe5,#ffe066 60%,#ffd700 100%);color:#bfa600;border-radius:14px;padding:8px 22px;font-weight:800;font-size:1.08em;box-shadow:0 2px 8px rgba(255,215,0,0.18);border:2px solid #ffd700;letter-spacing:1px;">
+                                <i class="fas fa-medal" style="color:#ffd700;margin-right:6px;"></i>{{ milestone.label }}
+                            </span>
+                        {% elif milestone.count >= 7 %}
+                            <span class="badge" style="margin:6px 8px 0 0;display:inline-block;background:linear-gradient(90deg,#f8f9fa,#e0e0e0 60%,#c0c0c0 100%);color:#888;border-radius:14px;padding:8px 22px;font-weight:800;font-size:1.08em;box-shadow:0 2px 8px rgba(192,192,192,0.18);border:2px solid #c0c0c0;letter-spacing:1px;">
+                                <i class="fas fa-medal" style="color:#c0c0c0;margin-right:6px;"></i>{{ milestone.label }}
+                            </span>
+                        {% elif milestone.count >= 4 %}
+                            <span class="badge" style="margin:6px 8px 0 0;display:inline-block;background:linear-gradient(90deg,#fff8e1,#e6b07a 60%,#cd7f32 100%);color:#a0522d;border-radius:14px;padding:8px 22px;font-weight:800;font-size:1.08em;box-shadow:0 2px 8px rgba(205,127,50,0.18);border:2px solid #cd7f32;letter-spacing:1px;">
+                                <i class="fas fa-medal" style="color:#cd7f32;margin-right:6px;"></i>{{ milestone.label }}
+                            </span>
+                        {% else %}
+                            <span class="badge" style="margin:6px 8px 0 0;display:inline-block;background:#fffde7;color:#333;border-radius:14px;padding:8px 22px;font-weight:700;font-size:1.08em;box-shadow:0 1px 4px rgba(255,193,7,0.09);">
+                                <i class="fas fa-medal" style="color:#ffa000;margin-right:6px;"></i>{{ milestone.label }}
+                            </span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="progress-section" style="padding: 20px 24px;">
+            <h3 style="margin-bottom: 12px;"><i class="fas fa-chart-pie"></i> Visual Analytics</h3>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0; margin: 0;">
+                <canvas id="activityPieChart" width="340" height="220" style="background: #fffde7; border-radius: 12px; margin-bottom: 0;"></canvas>
+                <canvas id="dailyBarChart" width="540" height="160" style="background: #fffde7; border-radius: 12px; margin-bottom: 0; margin-top: 0;"></canvas>
+                <canvas id="weeklyBarChart" width="540" height="160" style="background: #fffde7; border-radius: 12px; margin: 0;"></canvas>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            var pieLabels = {{ pie_labels|tojson|safe }};
+            var pieData = {{ pie_data|tojson|safe }};
+            var pieColors = {{ pie_colors|tojson|safe }};
+            var dailyLabels = {{ daily_activity_labels|tojson|safe }};
+            var dailyData = {{ daily_activity_data|tojson|safe }};
+            var weekLabels = {{ week_labels|tojson|safe }};
+            var weekData = {{ week_data|tojson|safe }};
+            window.addEventListener('DOMContentLoaded', function() {
+                // Pie chart for challenge types completed
+                var ctxPie = document.getElementById('activityPieChart').getContext('2d');
+                new Chart(ctxPie, {
+                    type: 'pie',
+                    data: {
+                        labels: pieLabels,
+                        datasets: [{
+                            data: pieData,
+                            backgroundColor: pieColors,
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            title: { display: true, text: 'Challenge Types Completed' }
+                        }
+                    }
+                });
+                // Bar chart for daily activity
+                var ctxDaily = document.getElementById('dailyBarChart').getContext('2d');
+                new Chart(ctxDaily, {
+                    type: 'bar',
+                    data: {
+                        labels: dailyLabels,
+                        datasets: [{
+                            label: 'Challenges Completed (Daily)',
+                            data: dailyData,
+                            backgroundColor: '#43a047',
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false },
+                            title: { display: true, text: 'Daily Challenges Completed (Last 7 Days)' }
+                        },
+                        scales: {
+                            x: { title: { display: true, text: 'Date' } },
+                            y: { title: { display: true, text: 'Challenges Completed' }, beginAtZero: true }
+                        }
+                    }
+                });
+                // Bar chart for weekly activity
+                var ctxWeek = document.getElementById('weeklyBarChart').getContext('2d');
+                new Chart(ctxWeek, {
+                    type: 'bar',
+                    data: {
+                        labels: weekLabels,
+                        datasets: [{
+                            label: 'Challenges Completed (Weekly)',
+                            data: weekData,
+                            backgroundColor: '#ffa000',
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false },
+                            title: { display: true, text: 'Weekly Challenges Completed (Last 4 Weeks)' }
+                        },
+                        scales: {
+                            x: { title: { display: true, text: 'Week' } },
+                            y: { title: { display: true, text: 'Challenges Completed' }, beginAtZero: true }
+                        }
+                    }
+                });
+            });
+        </script>
+        <div class="progress-section">
+            <h3><i class="fas fa-pen"></i> Reflections / Notes</h3>
+            <form method="POST" action="/features/progress/reflection" style="margin-bottom:12px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;">
+                <label for="reflection-note" style="font-weight:600;">How did you feel today?</label>
+                <textarea name="reflection_note" id="reflection-note" rows="2" style="width:100%;max-width:500px;padding:8px 12px;border-radius:8px;border:1px solid #ffd54f;font-size:1.08em;"></textarea>
+                <button type="submit" style="background:#ffb300;color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:1em;cursor:pointer;align-self:flex-end;">Save Reflection</button>
+            </form>
+            <div id="reflections-list">
+                {% if reflections %}
+                    <h4 style="margin-bottom:8px;color:#1976d2;font-size:1.08em;">Your Reflections:</h4>
+                    <ul style="padding-left:0;list-style:none;">
+                        {% for r in reflections %}
+                            <li style="background:#e3f2fd;border-radius:8px;padding:10px 14px;margin-bottom:8px;color:#1976d2;font-size:1.05em;">
+                                <strong>{{ r.date }}:</strong> {{ r.note }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <span style="color:#aaa;font-size:1em;">No reflections yet. Start by writing how you felt today!</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="progress-section">
+            <h3><i class="fas fa-calendar-week"></i> Weekly/Monthly Summary</h3>
+            <div class="summary-box" id="weekly-summary">
+                <div style="display:flex;align-items:center;gap:18px;">
+                    <div style="flex:1;text-align:center;">
+                        <div style="font-size:1.25em;font-weight:700;color:#ffa000;margin-bottom:6px;">This Week</div>
+                        <div style="font-size:1.08em;color:#1976d2;margin-bottom:8px;">{{ week_summary['text']|safe }}</div>
+                        <div style="background:#e3f2fd;border-radius:8px;padding:10px 14px;color:#388e3c;font-weight:600;font-size:1.05em;margin-bottom:8px;">
+                            <i class="fas fa-lightbulb" style="color:#9c27b0;margin-right:8px;"></i>{{ week_motivation }}
+                        </div>
+                    </div>
+                    <div style="flex:1;text-align:center;">
+                        <div style="font-size:1.25em;font-weight:700;color:#ffa000;margin-bottom:6px;">This Month</div>
+                        <div style="font-size:1.08em;color:#1976d2;margin-bottom:8px;">{{ month_summary['text']|safe }}</div>
+                        <div style="background:#e3f2fd;border-radius:8px;padding:10px 14px;color:#388e3c;font-weight:600;font-size:1.05em;margin-bottom:8px;">
+                            <i class="fas fa-lightbulb" style="color:#9c27b0;margin-right:8px;"></i>{{ month_motivation }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="progress-section">
+            <h3><i class="fas fa-award"></i> Achievements & Milestones</h3>
+            <div id="milestones">
+                {% for milestone in milestones %}
+                    {% if milestone.type == 'reading' %}
+                        <span class="badge" style="margin:6px 8px 0 0;display:inline-block;background:linear-gradient(90deg,#e3f2fd,#ffd54f);color:#1976d2;border-radius:14px;padding:8px 22px;font-weight:700;font-size:1.08em;box-shadow:0 2px 8px rgba(255,193,7,0.09);border:2px solid #ffd54f;letter-spacing:1px;">
+                            <i class="fas fa-book-open" style="color:#ffa000;margin-right:6px;"></i>{{ milestone.label }}
+                        </span>
+                    {% elif milestone.type == 'outdoor' %}
+                        <span class="badge" style="margin:6px 8px 0 0;display:inline-block;background:linear-gradient(90deg,#e3f2fd,#43a047);color:#388e3c;border-radius:14px;padding:8px 22px;font-weight:700;font-size:1.08em;box-shadow:0 2px 8px rgba(67,160,71,0.09);border:2px solid #43a047;letter-spacing:1px;">
+                            <i class="fas fa-tree" style="color:#43a047;margin-right:6px;"></i>{{ milestone.label }}
+                        </span>
+                    {% else %}
+                        <span class="badge" style="margin:6px 8px 0 0;display:inline-block;background:linear-gradient(90deg,#fffde7,#e3f2fd);color:#1976d2;border-radius:14px;padding:8px 22px;font-weight:700;font-size:1.08em;box-shadow:0 2px 8px rgba(33,150,243,0.09);border:2px solid #e3f2fd;letter-spacing:1px;">
+                            <i class="fas fa-award" style="color:#ffa000;margin-right:6px;"></i>{{ milestone.label }}
+                        </span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <a href="/" class="back-link" style="position:fixed;top:24px;right:32px;background:#9c27b0;color:#fff;font-size:1.15em;font-weight:700;text-align:center;padding:12px 28px;z-index:1000;box-shadow:0 2px 8px rgba(156,39,176,0.13);border-radius:10px;display:block;text-decoration:none;transition:background 0.2s,box-shadow 0.2s;">
+        <i class="fas fa-arrow-left" style="margin-right:10px;"></i>Back to Home
+    </a>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+<script>
+var moodData = {{ mood_chart|tojson|safe }};
+var moodInsight = {{ mood_insight|tojson|safe }};
+window.addEventListener('DOMContentLoaded', function() {
+    var ctx = document.getElementById('moodChart').getContext('2d');
+    var labels = moodData.map(function(m) { return m.date; });
+    var ratings = moodData.map(function(m) { return m.rating; });
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Mood Rating',
+                data: ratings,
+                borderColor: '#ffb300',
+                backgroundColor: 'rgba(255,193,7,0.15)',
+                tension: 0.3,
+                pointRadius: 5,
+                pointBackgroundColor: '#ffb300',
+            }]
+        },
+        options: {
+            scales: {
+                y: { min: 1, max: 5, title: { display: true, text: 'Mood (1–5)' } },
+                x: { title: { display: true, text: 'Date' } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+    // Show insights
+    document.getElementById('mood-insights').innerText = moodInsight;
+});
+</script>
+<script>
+var moodData = {{ mood_chart|tojson|safe }};
+var moodInsight = {{ mood_insight|tojson|safe }};
+window.addEventListener('DOMContentLoaded', function() {
+    var ctx = document.getElementById('moodChart').getContext('2d');
+    var labels = moodData.map(function(m) { return m.date; });
+    var ratings = moodData.map(function(m) { return m.rating; });
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Mood Rating',
+                data: ratings,
+                borderColor: '#ffb300',
+                backgroundColor: 'rgba(255,193,7,0.15)',
+                tension: 0.3,
+                pointRadius: 5,
+                pointBackgroundColor: '#ffb300',
+            }]
+        },
+        options: {
+            scales: {
+                y: { min: 1, max: 5, title: { display: true, text: 'Mood (1–5)' } },
+                x: { title: { display: true, text: 'Date' } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+    // Show insights
+    document.getElementById('mood-insights').innerText = moodInsight;
+});
+</script>
+</html>

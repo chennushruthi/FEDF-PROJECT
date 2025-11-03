@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short Walk Timer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <style>
+        .walk-board {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(111,66,193,0.10);
+            padding: 2rem;
+            max-width: 400px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        .timer {
+            font-size: 2.5em;
+            color: #6f42c1;
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+        .walk-controls button {
+            background: #6f42c1;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 22px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 0 8px;
+        }
+        .walk-controls button:hover {
+            background: #4b2e83;
+        }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <nav class="nav">
+            <div class="logo"><a href="{{ url_for('home') }}">🌿 Digital Detox</a></div>
+            <div class="nav-links">
+                <a href="{{ url_for('sad_tasks') }}">← Back to Sad Tasks</a>
+            </div>
+        </nav>
+        <div class="walk-board">
+            <h2>Short Walk Timer</h2>
+            <div class="timer" id="timer">00:00</div>
+            <div class="walk-controls">
+                <button onclick="startTimer()">Start</button>
+                <button onclick="pauseTimer()">Pause</button>
+                <button onclick="resetTimer()">Reset</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let timerInterval;
+        let seconds = 0;
+        let running = false;
+        function updateTimer() {
+            const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+            const sec = String(seconds % 60).padStart(2, '0');
+            document.getElementById('timer').innerText = `${min}:${sec}`;
+        }
+        function startTimer() {
+            if (!running) {
+                running = true;
+                timerInterval = setInterval(() => {
+                    seconds++;
+                    updateTimer();
+                }, 1000);
+            }
+        }
+        function pauseTimer() {
+            running = false;
+            clearInterval(timerInterval);
+        }
+        function resetTimer() {
+            running = false;
+            clearInterval(timerInterval);
+            seconds = 0;
+            updateTimer();
+        }
+        updateTimer();
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Diary Writing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+</head>
+<body>
+    <div class="home-container">
+        <nav class="nav">
+            <div class="logo"><a href="{{ url_for('home') }}">🌿 Digital Detox</a></div>
+            <div class="nav-links">
+                <a href="{{ url_for('happy_tasks') }}">← Back to Happy Tasks</a>
+            </div>
+        </nav>
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h1 class="page-title">📓 Personal Diary Writing</h1>
+            </div>
+            <div class="card-container" style="max-width:600px; margin:0 auto;">
+                <form method="POST" class="card">
+                    <input type="text" name="title" style="width:100%; border-radius:8px; border:1px solid #ffb300; padding:10px; font-size:1em; margin-bottom:10px;" placeholder="Set a title for your diary entry..." required>
+                    <textarea name="diary_text" rows="5" style="width:100%; border-radius:8px; border:1px solid #28a745; padding:12px; font-size:1em; margin-bottom:10px;" placeholder="Write your diary entry here..." required></textarea>
+                    <button type="submit" style="background:#28a745; color:#fff; border:none; border-radius:8px; padding:10px 22px; font-size:1em; cursor:pointer;">Submit Diary</button>
+                    {% if message %}
+                    <div style="color:#28a745; margin-top:10px; font-weight:500;">{{ message }}</div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        <footer class="footer">
+            &copy; 2024 Digital Detox. All Rights Reserved.
+        </footer>
+    </div>
+    <script>
+        function submitDiary() {
+            var note = document.getElementById('diary-text').value.trim();
+            var success = document.getElementById('diary-success');
+            if (note.length > 0) {
+                success.innerText = 'Your diary entry is saved!';
+                success.style.display = 'block';
+                document.getElementById('diary-text').value = '';
+            } else {
+                success.innerText = 'Please write something before submitting.';
+                success.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

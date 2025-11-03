@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angry Tasks - Level {{ level }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <style>
+        .angry-tasks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 32px;
+        }
+        .angry-task-row {
+            background: #fff0f0;
+            border-left: 8px solid #dc3545;
+            border-radius: 10px;
+            padding: 18px 32px;
+            font-size: 1.15em;
+            font-weight: 500;
+            color: #dc3545;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(220,53,69,0.08);
+            transition: background 0.2s, box-shadow 0.2s;
+            margin-bottom: 4px;
+        }
+        .angry-task-row:hover {
+            background: #ffeaea;
+            box-shadow: 0 4px 16px rgba(220,53,69,0.18);
+        }
+        .angry-task-icon {
+            font-size: 1.5em;
+            margin-right: 18px;
+        }
+        .angry-task-text {
+            flex: 1;
+        }
+        .angry-title {
+            color: #dc3545;
+            margin-bottom: 18px;
+            font-size: 1.3em;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 32px;
+            padding: 10px 28px;
+            background: #dc3545;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1em;
+            transition: background 0.2s;
+        }
+        .back-btn:hover {
+            background: #a71d2a;
+        }
+    </style>
+</head>
+<body>
+    <div class="angry-tasks-center">
+        <div class="angry-tasks-card">
+            {% set level_labels = {
+                1: 'Just a little',
+                2: 'Mild',
+                3: 'Moderate',
+                4: 'Strong',
+                5: 'Very angry'
+            } %}
+            <h2 class="angry-title">😡 Angry Level: {{ level_labels.get(level, level) }}</h2>
+            <div class="angry-tasks-list">
+                {% for task in tasks %}
+                {% if level == 2 and task.text == 'Write down your thoughts' %}
+                <a href="{{ url_for('angry_note') }}" style="text-decoration:none;">
+                    <div class="angry-task-row" style="cursor:pointer;">
+                        <span class="angry-task-icon">{{ task.icon }}</span>
+                        <span class="angry-task-text">{{ task.text }}</span>
+                    </div>
+                </a>
+                {% elif level == 2 and task.text == 'Listen to calming music' %}
+                <a href="https://open.spotify.com/playlist/37i9dQZF1DX3PIPIT6lEg5" target="_blank" style="text-decoration:none;">
+                    <div class="angry-task-row" style="cursor:pointer;">
+                        <span class="angry-task-icon">{{ task.icon }}</span>
+                        <span class="angry-task-text">{{ task.text }}</span>
+                    </div>
+                </a>
+                {% elif level == 3 and task.text == 'Journal “what’s making me upset?”' %}
+                <a href="{{ url_for('angry_journal') }}" style="text-decoration:none;">
+                    <div class="angry-task-row" style="cursor:pointer;">
+                        <span class="angry-task-icon">{{ task.icon }}</span>
+                        <span class="angry-task-text">{{ task.text }}</span>
+                    </div>
+                </a>
+                {% elif level == 4 and task.text == 'Do a 5–10 min guided meditation' %}
+                <a href="{{ url_for('angry_meditation') }}" style="text-decoration:none;">
+                    <div class="angry-task-row" style="cursor:pointer;">
+                        <span class="angry-task-icon">{{ task.icon }}</span>
+                        <span class="angry-task-text">{{ task.text }}</span>
+                    </div>
+                </a>
+                {% elif level == 5 and task.text == 'Call a trusted friend to vent safely' %}
+                <a href="https://wa.me/?text=Hi%2C%20can%20we%20talk%3F" target="_blank" style="text-decoration:none;">
+                    <div class="angry-task-row" style="cursor:pointer;">
+                        <span class="angry-task-icon">{{ task.icon }}</span>
+                        <span class="angry-task-text">{{ task.text }}</span>
+                    </div>
+                </a>
+                {% else %}
+                <div class="angry-task-row">
+                    <span class="angry-task-icon">{{ task.icon }}</span>
+                    <span class="angry-task-text">{{ task.text }}</span>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <a href="{{ url_for('angry_tasks') }}" class="back-btn">&#8592; Back</a>
+        </div>
+    </div>
+    <style>
+        .angry-tasks-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            background: #f8f9fa;
+        }
+        .angry-tasks-card {
+            background: #f6fffc;
+            border-left: 10px solid #20c997;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(32,201,151,0.10);
+            padding: 40px 36px 32px 36px;
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .angry-title {
+            color: #20c997;
+            margin-bottom: 28px;
+            font-size: 1.5em;
+            text-align: center;
+            font-weight: 700;
+        }
+        .angry-tasks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 18px;
+        }
+        .angry-task-row {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(32,201,151,0.08);
+            padding: 18px 24px;
+            font-size: 1.15em;
+            font-weight: 500;
+            color: #20c997;
+            display: flex;
+            align-items: center;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .angry-task-row:hover {
+            background: #eafff7;
+            box-shadow: 0 4px 16px rgba(32,201,151,0.18);
+        }
+        .angry-task-icon {
+            font-size: 1.6em;
+            margin-right: 18px;
+        }
+        .angry-task-text {
+            flex: 1;
+        }
+        .back-btn {
+            display: block;
+            margin: 32px auto 0 auto;
+            padding: 12px 36px;
+            background: #20c997;
+            color: #fff;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: background 0.2s;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(32,201,151,0.10);
+        }
+        .back-btn:hover {
+            background: #138f6a;
+        }
+    </style>
+</body>
+</html>

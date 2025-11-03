@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .history-container {
+            max-width: 800px;
+            margin: 60px auto 120px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 32px 24px;
+        }
+        .history-title {
+            text-align: center;
+            color: #ffb300;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+        .history-section {
+            margin-bottom: 32px;
+        }
+        .history-section h3 {
+            color: #ffa000;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        .history-entry {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            font-size: 1.08rem;
+        }
+        .empty-history {
+            color: #888;
+            text-align: center;
+            font-size: 1.1rem;
+            margin: 30px 0;
+        }
+        .back-link {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: #ffb300;
+            color: #fff;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 16px 0 12px 0;
+            text-decoration: none;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.07);
+            z-index: 100;
+            border-radius: 0;
+            transition: background 0.2s;
+            display: block;
+        }
+        .back-link:hover {
+            background: #ffa000;
+        }
+    </style>
+</head>
+<body>
+    <div class="history-container">
+        <div class="history-title"><i class="fas fa-history"></i> Your Activity History</div>
+        <div class="history-section">
+            <h3><i class="fas fa-pen"></i> Writing Activity</h3>
+            {% if writing_history %}
+                <div id="writing-dates">
+                    {% for date, titles in writing_history.items() %}
+                        <a class="history-entry writing-date" href="{{ url_for('history_detail', activity='writing', date=date) }}" style="width:100%;display:block;text-align:left;background:#ffe082;color:#333;border:none;border-radius:8px;padding:14px 18px;margin-bottom:10px;font-size:1.08rem;cursor:pointer;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-decoration:none;">{{ date }}</a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-history">No writing activity saved yet.</div>
+            {% endif %}
+        </div>
+        <div class="history-section">
+            <h3><i class="fas fa-paint-brush"></i> Drawing Activity</h3>
+            {% if drawing_history %}
+                {% for entry in drawing_history %}
+                    <div class="history-entry">{{ entry }}</div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-history">No drawing activity saved yet.</div>
+            {% endif %}
+        </div>
+        
+        <div class="history-section">
+            <h3><i class="fas fa-book"></i> Personal Diary</h3>
+            {% if diary_history %}
+                {% for date, entries in diary_history.items() %}
+                    <a class="history-entry diary-date" href="{{ url_for('history_detail', activity='diary', date=date) }}" style="width:100%;display:block;text-align:left;background:#f3e5f5;color:#333;border:none;border-radius:8px;padding:14px 18px;margin-bottom:10px;font-size:1.08rem;cursor:pointer;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-decoration:none;">{{ date }}</a>
+                {% endfor %}
+            {% else %}
+                <div class="empty-history">No diary entries saved yet.</div>
+            {% endif %}
+        </div>
+        
+        <div class="history-section">
+            <h3><i class="fas fa-music"></i> Songs & Lyrics</h3>
+            {% if songs_history %}
+                {% for date, entries in songs_history.items() %}
+                    <a class="history-entry songs-date" href="{{ url_for('history_detail', activity='songs', date=date) }}" style="width:100%;display:block;text-align:left;background:#e3f2fd;color:#333;border:none;border-radius:8px;padding:14px 18px;margin-bottom:10px;font-size:1.08rem;cursor:pointer;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-decoration:none;">{{ date }}</a>
+                {% endfor %}
+            {% else %}
+                <div class="empty-history">No songs saved yet.</div>
+            {% endif %}
+        </div>
+        
+        <div class="history-section">
+            <h3><i class="fas fa-heart"></i> Gratitude Notes</h3>
+            {% if gratitude_history %}
+                {% for date, entries in gratitude_history.items() %}
+                    <a class="history-entry gratitude-date" href="{{ url_for('history_detail', activity='gratitude', date=date) }}" style="width:100%;display:block;text-align:left;background:#e8f5e9;color:#333;border:none;border-radius:8px;padding:14px 18px;margin-bottom:10px;font-size:1.08rem;cursor:pointer;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,0.07);text-decoration:none;">{{ date }}</a>
+                {% endfor %}
+            {% else %}
+                <div class="empty-history">No gratitude notes saved yet.</div>
+            {% endif %}
+        </div>
+        
+        <!-- Add more sections for other activities as needed -->
+    </div>
+    <a href="/" class="back-link"><i class="fas fa-arrow-left" style="margin-right:10px;"></i>Back to Home</a>
+    
+    <script>
+        // Toggle function for hiding/showing entries
+        function toggleHistoryEntries(element) {
+            var content = element.nextElementSibling;
+            var icon = element.querySelector('i');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.className = 'fas fa-chevron-down';
+            } else {
+                content.style.display = 'none';
+                icon.className = 'fas fa-chevron-right';
+            }
+        }
+    </script>
+</body>
+</html>

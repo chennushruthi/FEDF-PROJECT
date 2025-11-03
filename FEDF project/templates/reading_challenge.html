@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reading Challenge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <style>
+        .main-title {
+            text-align: center;
+            color: #ffb300;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-top: 50px;
+        }
+        .challenge-plan {
+            max-width: 700px;
+            margin: 40px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+        }
+        .challenge-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 24px 20px;
+            width: 300px;
+            text-align: center;
+            transition: box-shadow 0.2s;
+            font-size: 1.08rem;
+            color: #444;
+        }
+        .challenge-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        .card-index {
+            color: #ffb300;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .back-link {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: #ffb300;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 18px 0 14px 0;
+            text-decoration: none;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.07);
+            z-index: 100;
+            transition: background 0.2s;
+        }
+        .back-link:hover {
+            background: #ffa000;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-title">Reading Challenge</div>
+    <div class="challenge-plan">
+        {% for item in plan %}
+            <div class="challenge-card">
+                <span class="card-index">Step {{ loop.index }}</span>
+                {{ item }}
+            </div>
+        {% endfor %}
+    </div>
+    <a href="/features/calm/challenges" class="back-link"><i class="fas fa-arrow-left" style="margin-right:8px;"></i>Back to Challenges</a>
+</body>
+</html>

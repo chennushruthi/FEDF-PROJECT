@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sad Mood Tasks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+</head>
+<body>
+    <div class="home-container">
+        <nav class="nav">
+            <div class="logo"><a href="{{ url_for('home') }}">🌿 Digital Detox</a></div>
+            <div class="nav-links">
+                <a href="{{ url_for('features') }}">← Back to Features</a>
+                <button class="btn-login-nav" onclick="showModal('loginModal')">Login</button>
+            </div>
+        </nav>
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h1 class="page-title">😔 Sad → Uplift + Comfort</h1>
+                <h2 class="page-subtitle">Tasks for a Sad Mood</h2>
+            </div>
+            <div class="card-container" style="max-width:600px; margin:0 auto;">
+                <div class="card" style="background: #f3e8ff; border-left: 8px solid #6f42c1;">
+                    <h3 style="color:#6f42c1; font-size:1.2em; margin-bottom:18px;"><i class="fas fa-sad-tear"></i> Sad Tasks</h3>
+                    <div style="display:flex; flex-direction:column; gap:18px;">
+                        <a href="https://open.spotify.com/" target="_blank" style="text-decoration:none;">
+                            <div style="background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(111,66,193,0.08); padding:18px; display:flex; align-items:center; cursor:pointer;">
+                                <span style="font-size:1.7em; margin-right:16px;">🎶</span>
+                                <span style="font-size:1.05em;">Listen to your favorite cheerful playlist</span>
+                            </div>
+                        </a>
+                        <a href="{{ url_for('sad_gratitude') }}" style="text-decoration:none;">
+                            <div style="background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(111,66,193,0.08); padding:18px; display:flex; align-items:center; cursor:pointer;">
+                                <span style="font-size:1.7em; margin-right:16px;">📓</span>
+                                <span style="font-size:1.05em;">Journal 3 things you’re grateful for</span>
+                            </div>
+                        </a>
+                        <a href="{{ url_for('sad_walk') }}" style="text-decoration:none;">
+                            <div style="background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(111,66,193,0.08); padding:18px; display:flex; align-items:center; cursor:pointer;">
+                                <span style="font-size:1.7em; margin-right:16px;">🚶</span>
+                                <span style="font-size:1.05em;">Go for a short walk</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            &copy; 2024 Digital Detox. All Rights Reserved.
+        </footer>
+    </div>
+</body>
+</html>

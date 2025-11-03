@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write a Gratitude Note</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+</head>
+<body>
+    <div class="home-container">
+        <nav class="nav">
+            <div class="logo"><a href="{{ url_for('home') }}">🌿 Digital Detox</a></div>
+            <div class="nav-links">
+                <a href="{{ url_for('happy_tasks') }}">← Back to Happy Tasks</a>
+            </div>
+        </nav>
+        <div class="content-wrapper">
+            <div class="page-header">
+                    <h2>Choose Your Writing Activity</h2>
+            </div>
+            <div class="writing-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:32px; max-width:700px; margin:0 auto; margin-top:32px;">
+                <a href="{{ url_for('happy_story') }}" class="writing-card" style="background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(63,81,181,0.10); padding:36px 0; display:flex; flex-direction:column; align-items:center; justify-content:center; border:2px solid #3f51b5; text-decoration:none; transition:box-shadow 0.2s,transform 0.2s;">
+                    <span style="font-size:2.5em; margin-bottom:18px; color:#3f51b5;">📖</span>
+                    <span style="font-size:1.25em; font-weight:600; color:#3f51b5;">Writing Story</span>
+                </a>
+                <a href="{{ url_for('happy_songs') }}" class="writing-card" style="background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(156,39,176,0.10); padding:36px 0; display:flex; flex-direction:column; align-items:center; justify-content:center; border:2px solid #9c27b0; text-decoration:none; transition:box-shadow 0.2s,transform 0.2s;">
+                    <span style="font-size:2.5em; margin-bottom:18px; color:#9c27b0;">🎵</span>
+                    <span style="font-size:1.25em; font-weight:600; color:#9c27b0;">Writing Songs</span>
+                </a>
+                <a href="{{ url_for('happy_diary') }}" class="writing-card" style="background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(33,150,243,0.10); padding:36px 0; display:flex; flex-direction:column; align-items:center; justify-content:center; border:2px solid #2196f3; text-decoration:none; transition:box-shadow 0.2s,transform 0.2s;">
+                    <span style="font-size:2.5em; margin-bottom:18px; color:#2196f3;">📔</span>
+                    <span style="font-size:1.25em; font-weight:600; color:#2196f3;">Personal Diary Writing</span>
+                </a>
+                <a href="{{ url_for('happy_tasks_note') }}" class="writing-card" style="background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(255,87,34,0.10); padding:36px 0; display:flex; flex-direction:column; align-items:center; justify-content:center; border:2px solid #ff5722; text-decoration:none; transition:box-shadow 0.2s,transform 0.2s;">
+                    <span style="font-size:2.5em; margin-bottom:18px; color:#ff5722;">📝</span>
+                    <span style="font-size:1.25em; font-weight:600; color:#ff5722;">Today's Tasks</span>
+                </a>
+            </div>
+            <style>
+            .writing-card:hover {
+                box-shadow:0 8px 32px rgba(63,81,181,0.18),0 2px 8px rgba(0,0,0,0.04);
+                transform:translateY(-2px) scale(1.04);
+            }
+            </style>
+            </div>
+        </div>
+        <footer class="footer">
+            &copy; 2024 Digital Detox. All Rights Reserved.
+        </footer>
+    </div>
+    <script>
+        function submitGratitudeNote() {
+            var note = document.getElementById('gratitude-text').value.trim();
+            var success = document.getElementById('gratitude-success');
+            if (note.length > 0) {
+                success.innerText = 'Thank you for sharing your gratitude!';
+                success.style.display = 'block';
+                document.getElementById('gratitude-text').value = '';
+            } else {
+                success.innerText = 'Please write something before submitting.';
+                success.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

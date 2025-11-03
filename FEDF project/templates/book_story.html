@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book_title }} - Story</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <style>
+        .story-card {
+            background: #f6fffc;
+            border-left: 10px solid #20c997;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(32,201,151,0.10);
+            padding: 40px 36px 32px 36px;
+            max-width: 600px;
+            width: 100%;
+            margin: 60px auto;
+        }
+        .story-title {
+            color: #20c997;
+            margin-bottom: 18px;
+            font-size: 1.3em;
+            text-align: center;
+            font-weight: 700;
+        }
+        .story-text {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 18px;
+            line-height: 1.7;
+        }
+        .back-btn {
+            display: block;
+            margin: 32px auto 0 auto;
+            padding: 12px 36px;
+            background: #20c997;
+            color: #fff;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: background 0.2s;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(32,201,151,0.10);
+        }
+        .back-btn:hover {
+            background: #138f6a;
+        }
+    </style>
+</head>
+<body>
+    <div class="story-card">
+        <h2 class="story-title">{{ book_title }}</h2>
+        <div class="story-text">{{ story_text }}</div>
+        <a href="{{ url_for('calm_books') }}" class="back-btn">&#8592; Back to Book List</a>
+    </div>
+</body>
+</html>

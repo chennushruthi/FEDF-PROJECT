@@ -1,0 +1,193 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Digital Detox</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            background: #f5f6fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto', sans-serif;
+        }
+        .login-modal {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(60,60,120,0.15);
+            padding: 2.5rem 2rem 2rem 2rem;
+            max-width: 420px;
+            width: 100%;
+            margin: auto;
+            position: relative;
+        }
+        .login-modal .close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            font-size: 1.3rem;
+            color: #888;
+            cursor: pointer;
+        }
+        .login-modal h1 {
+            text-align: center;
+            font-size: 2.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #222;
+        }
+        .login-modal p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        .login-modal label {
+            font-weight: 500;
+            color: #222;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+        .login-modal input[type="email"],
+        .login-modal input[type="password"] {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #d1d1e0;
+            font-size: 1rem;
+            background: #f7f7fa;
+            margin-bottom: 1rem;
+        }
+        .login-modal .login-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+        }
+        .login-modal .login-actions label {
+            display: flex;
+            align-items: center;
+            font-size: 0.98rem;
+            margin-bottom: 0;
+        }
+        .login-modal .login-actions a {
+            color: #185a9d;
+            font-size: 0.98rem;
+            text-decoration: none;
+        }
+        .login-modal .login-actions a:hover {
+            text-decoration: underline;
+        }
+        .login-modal button[type="submit"] {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: none;
+            background: #fcb045;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.8rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(60,60,120,0.08);
+            transition: background 0.2s;
+        }
+        .login-modal button[type="submit"]:hover {
+            background: #ff9800;
+        }
+        .login-modal .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.2rem 0;
+        }
+        .login-modal .divider span {
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+        .login-modal .divider p {
+            margin: 0 1rem;
+            color: #888;
+            font-size: 0.95rem;
+        }
+        .login-modal .social-login {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .login-modal .social-btn {
+            flex: 1;
+            padding: 0.7rem 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #fff;
+        }
+        .login-modal .google {
+            background: #e74c3c;
+        }
+        .login-modal .facebook {
+            background: #3b5998;
+        }
+        .login-modal .signup-link {
+            text-align: center;
+            margin-top: 1.2rem;
+            color: #888;
+            font-size: 1rem;
+        }
+        .login-modal .signup-link a {
+            color: #fcb045;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .login-modal .signup-link a:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: #d8000c;
+            background: #ffd2d2;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            margin-top: 0.7rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-modal">
+        <span class="close" onclick="window.location.href='/'">&times;</span>
+        <h1>Welcome Back</h1>
+        <p>Login to DetoxApp to reclaim your time</p>
+        <form method="POST">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="username" placeholder="Enter your email" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <div class="login-actions">
+                <label><input type="checkbox" name="remember"> Remember me</label>
+                <a href="#">Forgot Password?</a>
+            </div>
+            <button type="submit">Login</button>
+            {% if error %}
+            <div class="error-message">{{ error }}</div>
+            {% endif %}
+        </form>
+        <div class="divider"><span></span><p>OR</p><span></span></div>
+        <div class="social-login">
+            <button class="social-btn google" type="button"><i class="fab fa-google"></i> Google</button>
+            <button class="social-btn facebook" type="button"><i class="fab fa-facebook-f"></i> Facebook</button>
+        </div>
+        <div class="signup-link">
+            Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a>
+        </div>
+    </div>
+</body>
+</html>

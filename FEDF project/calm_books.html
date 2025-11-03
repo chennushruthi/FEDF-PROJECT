@@ -1,0 +1,120 @@
+<div class="container">
+    <h2>Novels</h2>
+    <input type="text" id="searchBox" placeholder="Search for a novel..." style="width: 100%; margin-bottom: 20px;">
+    <button id="showAllBtn" style="margin-bottom: 20px;">Show All Available Novels</button>
+    <ul id="bookList">
+        <!-- First 10 novels visible by default -->
+        <li><a href="/features/calm/book/pride">Pride and Prejudice by Jane Austen</a></li>
+        <li><a href="/features/calm/book/fault">The Fault in Our Stars by John Green</a></li>
+        <li><a href="/features/calm/book/mebefore">Me Before You by Jojo Moyes</a></li>
+        <li><a href="/features/calm/book/it">It by Stephen King</a></li>
+        <li><a href="/features/calm/book/hillhouse">The Haunting of Hill House by Shirley Jackson</a></li>
+        <li><a href="/features/calm/book/dracula">Dracula by Bram Stoker</a></li>
+        <li><a href="/features/calm/book/gonegirl">Gone Girl by Gillian Flynn</a></li>
+        <li><a href="/features/calm/book/dragontattoo">The Girl with the Dragon Tattoo by Stieg Larsson</a></li>
+        <li><a href="/features/calm/book/silence">The Silence of the Lambs by Thomas Harris</a></li>
+        <li><a href="/features/calm/book/mockingbird">To Kill a Mockingbird by Harper Lee</a></li>
+        <!-- Remaining novels hidden by default -->
+        <li style="display:none"><a href="/features/calm/book/1984">1984 by George Orwell</a></li>
+        <li style="display:none"><a href="/features/calm/book/gatsby">The Great Gatsby by F. Scott Fitzgerald</a></li>
+        <li style="display:none"><a href="/features/calm/book/itoohad">I Too Had a Love Story by Ravinder Singh</a></li>
+        <li style="display:none"><a href="/features/calm/book/harrypotter1">Harry Potter and the Sorcerer's Stone by J.K. Rowling</a></li>
+        <li style="display:none"><a href="/features/calm/book/harrypotter2">Harry Potter and the Chamber of Secrets by J.K. Rowling</a></li>
+        <li style="display:none"><a href="/features/calm/book/harrypotter3">Harry Potter and the Prisoner of Azkaban by J.K. Rowling</a></li>
+        <li style="display:none"><a href="/features/calm/book/harrypotter4">Harry Potter and the Goblet of Fire by J.K. Rowling</a></li>
+        <li style="display:none"><a href="/features/calm/book/harrypotter5">Harry Potter and the Order of the Phoenix by J.K. Rowling</a></li>
+        <li style="display:none"><a href="/features/calm/book/harrypotter6">Harry Potter and the Half-Blood Prince by J.K. Rowling</a></li>
+        <li style="display:none"><a href="/features/calm/book/harrypotter7">Harry Potter and the Deathly Hallows by J.K. Rowling</a></li>
+        <!-- 50 more novels -->
+        <li style="display:none"><a href="/features/calm/book/ulysses">Ulysses by James Joyce</a></li>
+        <li style="display:none"><a href="/features/calm/book/mobydick">Moby-Dick by Herman Melville</a></li>
+        <li style="display:none"><a href="/features/calm/book/warandpeace">War and Peace by Leo Tolstoy</a></li>
+        <li style="display:none"><a href="/features/calm/book/annaKarenina">Anna Karenina by Leo Tolstoy</a></li>
+        <li style="display:none"><a href="/features/calm/book/crimeandpunishment">Crime and Punishment by Fyodor Dostoevsky</a></li>
+        <li style="display:none"><a href="/features/calm/book/brothersKaramazov">The Brothers Karamazov by Fyodor Dostoevsky</a></li>
+        <li style="display:none"><a href="/features/calm/book/gonewiththewind">Gone with the Wind by Margaret Mitchell</a></li>
+        <li style="display:none"><a href="/features/calm/book/wutheringheights">Wuthering Heights by Emily Brontë</a></li>
+        <li style="display:none"><a href="/features/calm/book/janeeyre">Jane Eyre by Charlotte Brontë</a></li>
+        <li style="display:none"><a href="/features/calm/book/frankenstein">Frankenstein by Mary Shelley</a></li>
+        <li style="display:none"><a href="/features/calm/book/littlewomen">Little Women by Louisa May Alcott</a></li>
+        <li style="display:none"><a href="/features/calm/book/lesmis">Les Misérables by Victor Hugo</a></li>
+        <li style="display:none"><a href="/features/calm/book/davidcopperfield">David Copperfield by Charles Dickens</a></li>
+        <li style="display:none"><a href="/features/calm/book/greatExpectations">Great Expectations by Charles Dickens</a></li>
+        <li style="display:none"><a href="/features/calm/book/olivertwist">Oliver Twist by Charles Dickens</a></li>
+        <li style="display:none"><a href="/features/calm/book/treasureisland">Treasure Island by Robert Louis Stevenson</a></li>
+        <li style="display:none"><a href="/features/calm/book/robinsoncrusoe">Robinson Crusoe by Daniel Defoe</a></li>
+        <li style="display:none"><a href="/features/calm/book/heartofdarkness">Heart of Darkness by Joseph Conrad</a></li>
+        <li style="display:none"><a href="/features/calm/book/farenheit451">Fahrenheit 451 by Ray Bradbury</a></li>
+        <li style="display:none"><a href="/features/calm/book/bravenewworld">Brave New World by Aldous Huxley</a></li>
+        <li style="display:none"><a href="/features/calm/book/catch22">Catch-22 by Joseph Heller</a></li>
+        <li style="display:none"><a href="/features/calm/book/lordoftheflies">Lord of the Flies by William Golding</a></li>
+        <li style="display:none"><a href="/features/calm/book/animalfarm">Animal Farm by George Orwell</a></li>
+        <li style="display:none"><a href="/features/calm/book/thetrial">The Trial by Franz Kafka</a></li>
+        <li style="display:none"><a href="/features/calm/book/thecastle">The Castle by Franz Kafka</a></li>
+        <li style="display:none"><a href="/features/calm/book/theoutsider">The Outsider by Albert Camus</a></li>
+        <li style="display:none"><a href="/features/calm/book/theplague">The Plague by Albert Camus</a></li>
+        <li style="display:none"><a href="/features/calm/book/doctorzhivago">Doctor Zhivago by Boris Pasternak</a></li>
+        <li style="display:none"><a href="/features/calm/book/whitefang">White Fang by Jack London</a></li>
+        <li style="display:none"><a href="/features/calm/book/callofthewild">The Call of the Wild by Jack London</a></li>
+        <li style="display:none"><a href="/features/calm/book/theoldmanandsea">The Old Man and the Sea by Ernest Hemingway</a></li>
+        <li style="display:none"><a href="/features/calm/book/forwhombelltolls">For Whom the Bell Tolls by Ernest Hemingway</a></li>
+        <li style="display:none"><a href="/features/calm/book/portraitofartist">A Portrait of the Artist as a Young Man by James Joyce</a></li>
+        <li style="display:none"><a href="/features/calm/book/theroad">The Road by Cormac McCarthy</a></li>
+        <li style="display:none"><a href="/features/calm/book/bloodmeridian">Blood Meridian by Cormac McCarthy</a></li>
+        <li style="display:none"><a href="/features/calm/book/thenarrativeofarthur">The Narrative of Arthur Gordon Pym by Edgar Allan Poe</a></li>
+        <li style="display:none"><a href="/features/calm/book/thegoldbug">The Gold-Bug by Edgar Allan Poe</a></li>
+        <li style="display:none"><a href="/features/calm/book/thefallofusher">The Fall of the House of Usher by Edgar Allan Poe</a></li>
+        <li style="display:none"><a href="/features/calm/book/theblackcat">The Black Cat by Edgar Allan Poe</a></li>
+        <li style="display:none"><a href="/features/calm/book/thepitandpendulum">The Pit and the Pendulum by Edgar Allan Poe</a></li>
+        <li style="display:none"><a href="/features/calm/book/thepurloinedletter">The Purloined Letter by Edgar Allan Poe</a></li>
+        <li style="display:none"><a href="/features/calm/book/theadventuresofsherlock">The Adventures of Sherlock Holmes by Arthur Conan Doyle</a></li>
+        <li style="display:none"><a href="/features/calm/book/thehoundofbaskervilles">The Hound of the Baskervilles by Arthur Conan Doyle</a></li>
+        <li style="display:none"><a href="/features/calm/book/thethreemusketeers">The Three Musketeers by Alexandre Dumas</a></li>
+        <li style="display:none"><a href="/features/calm/book/thecountofmontecristo">The Count of Monte Cristo by Alexandre Dumas</a></li>
+        <li style="display:none"><a href="/features/calm/book/thescarletletter">The Scarlet Letter by Nathaniel Hawthorne</a></li>
+        <li style="display:none"><a href="/features/calm/book/thehouseofseven">The House of the Seven Gables by Nathaniel Hawthorne</a></li>
+        <li style="display:none"><a href="/features/calm/book/thegrapesofwrath">The Grapes of Wrath by John Steinbeck</a></li>
+        <li style="display:none"><a href="/features/calm/book/eastofeden">East of Eden by John Steinbeck</a></li>
+        <li style="display:none"><a href="/features/calm/book/ofmiceandmen">Of Mice and Men by John Steinbeck</a></li>
+        <li style="display:none"><a href="/features/calm/book/thepearl">The Pearl by John Steinbeck</a></li>
+        <li style="display:none"><a href="/features/calm/book/canneryrow">Cannery Row by John Steinbeck</a></li>
+    </ul>
+</div>
+<script>
+    const searchBox = document.getElementById('searchBox');
+    const bookList = document.getElementById('bookList');
+    const lis = Array.from(bookList.getElementsByTagName('li'));
+    const showAllBtn = document.getElementById('showAllBtn');
+    function showDefault() {
+        lis.forEach(function(li, idx) {
+            if (idx < 10) {
+                li.style.display = '';
+            } else {
+                li.style.display = 'none';
+            }
+        });
+    }
+    searchBox.addEventListener('input', function() {
+        const filter = searchBox.value.toLowerCase();
+        lis.forEach(function(li, idx) {
+            const text = li.textContent.toLowerCase();
+            if (filter && text.includes(filter)) {
+                li.style.display = '';
+            } else if (!filter && idx < 10) {
+                li.style.display = '';
+            } else if (!filter) {
+                li.style.display = 'none';
+            } else {
+                li.style.display = 'none';
+            }
+        });
+    });
+    showAllBtn.addEventListener('click', function() {
+        lis.forEach(function(li) {
+            li.style.display = '';
+        });
+        searchBox.value = '';
+    });
+    // On page load, show default
+    showDefault();
+</script>

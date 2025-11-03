@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DetoxApp: Features</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+</head>
+<body>
+    <div class="home-container">
+        <nav class="nav">
+            <div class="logo"><a href="{{ url_for('home') }}">🌿 Digital Detox</a></div>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}">← Back to Home</a>
+                {% if not session.logged_in %}
+                <a href="{{ url_for('login') }}"><button class="btn-login-nav">Login</button></a>
+                {% else %}
+                <a href="{{ url_for('logout') }}"><button class="btn-login-nav">Logout</button></a>
+                {% endif %}
+            </div>
+        </nav>
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h1 class="page-title">Core Features</h1>
+                <h2 class="page-subtitle">Reclaim Your Time & Focus</h2>
+            </div>
+            <div class="card-container" style="justify-content:center;">
+                <div class="card">
+                    <h3 style="margin-bottom:20px;">Select Your Mood</h3>
+                    <div style="font-size:3em; display:flex; justify-content:center; gap:40px;">
+                        <a href="{{ url_for('happy_tasks') }}" style="text-decoration:none;"><span title="Happy" style="cursor:pointer;">😊</span></a>
+                        <a href="{{ url_for('sad_tasks') }}" style="text-decoration:none;"><span title="Sad" style="cursor:pointer;">😢</span></a>
+                        <a href="{{ url_for('angry_tasks') }}" style="text-decoration:none;"><span title="Angry" style="cursor:pointer;">😠</span></a>
+                        <a href="{{ url_for('calm_tasks') }}" style="text-decoration:none;"><span title="Calm/Neutral" style="cursor:pointer;">😐</span></a>
+                    </div>
+                </div>
+            </div>
+            <div id="happy-tasks-container" style="max-width:500px; margin:30px auto 0 auto;"></div>
+            <script>
+            function showHappyTasks() {
+                const container = document.getElementById('happy-tasks-container');
+                container.innerHTML = `
+                    <div class='card'>
+                        <h3>😀 Happy → Energy + Creativity</h3>
+                        <ul style='text-align:left; font-size:1em;'>
+                            <li>Write a gratitude note ✍️</li>
+                            <li>Try a fun hobby (drawing, music, coding mini-project) 🎨</li>
+                            <li>Call or text a loved one 💬</li>
+                        </ul>
+                    </div>
+                `;
+            }
+            </script>
+        </div>
+        <footer class="footer">
+            &copy; 2024 Digital Detox. All Rights Reserved.
+        </footer>
+    </div>
+</body>
+</html>

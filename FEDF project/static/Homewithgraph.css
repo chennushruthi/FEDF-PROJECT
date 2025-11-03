@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DetoxApp: Home & Login Modal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Chart.js for the line graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <style>
+        /* =========================================
+           GLOBAL & BASE STYLES
+           ========================================= */
+        html, body {
+            height: 100%;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth; 
+        }
+
+        /* =========================================
+           BODY TEXT STYLES (Soft Charcoal Gray)
+           ========================================= */
+        p.body-text-style {
+            color: #555555; 
+            font-size: 1.05em; 
+            line-height: 1.7; 
+            max-width: 800px;
+            margin: 15px auto 0 auto;
+            text-align: center;
+        }
+
+        /* =========================================
+           LOGIN SUCCESS MESSAGE STYLES
+           ========================================= */
+        .login-view {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-success {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .login-success h3 {
+            color: #28a745;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .login-success p {
+            color: #6a6a6a;
+            margin-bottom: 30px;
+        }
+
+        .btn-dashboard {
+            background-color: #28a745; 
+            color: white;
+            max-width: 250px;
+            margin: 0 auto;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        /* =========================================
+           PAGE/CONTAINER STYLES
+           ========================================= */
+        .home-container {
+            background-color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .content-wrapper {
+            flex-grow: 1; 
+        }
+
+        /* Navigation Bar */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #4CAF50;
+        }
+        
+        .logo a {
+             text-decoration: none;
+             color: inherit;
+        }
+
+        .nav-links a, .nav-links button {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #6a6a6a;
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: color 0.2s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .nav-links button.btn-login-nav {
+            background-color: #f5a623;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            font-weight: 700;
+        }
+
+        .nav-links button.btn-login-nav:hover {
+            background-color: #e0961f;
+        }
+
+        .nav-links a:hover {
+            color: #f5a623;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background-color: #fefcfb;
+            padding: 80px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .hero-text {
+            max-width: 500px;
+        }
+
+        .hero-text h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .hero-text p {
+            color: #6a6a6a;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .btn-start-detox {
+            background-color: #f5a623;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            width: auto;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* --- STICKER/BADGE STYLE --- */
+        .hero-sticker {
+            width: 250px;
+            height: 250px;
+            background-color: #fff8e1;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), inset 0 0 15px rgba(255, 255, 255, 0.7);
+            animation: bounce-scale 2.5s infinite ease-out; 
+            min-width: 200px; 
+        }
+
+        .sticker-icon {
+            font-size: 4em;
+            color: #00897B; 
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sticker-text {
+            font-size: 1.1em;
+            font-weight: 700; 
+            color: #333;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        @keyframes bounce-scale {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            75% { transform: scale(0.98); }
+        }
+        /* --- END STICKER STYLES --- */
+        
+        /* Section Header (For general sections like About/Chart) */
+        .section-header {
+            text-align: center;
+            padding: 60px 0 20px 0;
+        }
+        
+        .section-header h2 {
+            font-size: 2em;
+            font-weight: 700;
+            color: #f5a623;
+            margin-bottom: 5px;
+        }
+
+        /* --- CHART SECTION STYLES --- */
+        .chart-container-wrapper {
+            background-color: #fcfcfc; 
+            padding: 40px 5%; 
+            border-top: 1px solid #eee;
+        }
+
+        .chart-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f0f0f0;
+        }
+
+        .chart-card h3 {
+            text-align: center;
+            font-size: 1.4em;
+            color: #4CAF50;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+        
+        /* FIX: Give the chart container a fixed height */
+        .chart-wrapper {
+            position: relative;
+            height: 300px; 
+        }
+        /* --- END CHART SECTION STYLES --- */
+
+
+        /* Specific styling for the top header of sub-pages (Features, Challenges, Advanced Tools) */
+        .page-header {
+            text-align: center;
+            padding: 40px 5% 20px 5%; 
+            margin-top: 0;
+            margin-bottom: 0; 
+        }
+        
+        .page-title {
+             color: #4CAF50; 
+             font-size: 2.2em;
+             margin-bottom: 5px; 
+        }
+
+        .page-subtitle {
+             color: #f5a623; 
+             font-size: 1.5em;
+             font-weight: 500;
+             margin-top: 0;
+             margin-bottom: 20px; 
+        }
+        
+        /* Card Layout */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 0 5% 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #333;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        /* Card Icons */
+        .icon {
+            font-size: 1.5em;
+            margin-right: 8px;
+            vertical-align: middle; 
+            line-height: 1;
+        }
+        .icon-time { color: #dc3545; }
+        .icon-sleep { color: #ffc107; }
+        .icon-mind { color: #17a2b8; } 
+        .icon-challenge { color: #f5a623; } 
+        .icon-report { color: #4CAF50; } 
+        .icon-relax { color: #6f42c1; } 
+        .icon-community { color: #ff8c00; } 
+
+        /* --- DOWNLOAD BUTTON STYLES --- */
+        .store-buttons-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .btn-store {
+            display: flex;
+            align-items: center;
+            background-color: #212121; /* Dark background */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.0em;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 180px;
+            cursor: pointer;
+        }
+
+        .btn-store:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-store i {
+            font-size: 1.8em;
+            margin-right: 10px;
+        }
+        
+        .store-text-small {
+            font-size: 0.7em;
+            line-height: 1;
+        }
+
+        .store-text-large {
+            font-size: 1.1em;
+            font-weight: 700;
+            line-height: 1;
+        }
+        /* --- END DOWNLOAD BUTTON STYLES --- */
+
+
+        /* Footer */
+        .footer {
+            background-color: #ff6347;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.85em;
+            margin-top: auto; 
+        }
+
+        /* =========================================
+           MODAL STYLES
+           ========================================= */
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6); 
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+        
+        .modal.is-active .modal-content {
+             transform: scale(1);
+             opacity: 1;
+        }
+
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #f5a623;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        /* Modal-specific input styles, inherited from original login box */
+        .modal-content .welcome-header {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1.8em;
+        }
+
+        .modal-content .tagline {
+            color: #6a6a6a;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+        }
+
+        .modal-content .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .modal-content .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        .modal-content .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+
+        .modal-content .options-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+        
+        .modal-content .btn-login {
+            background-color: #f5a623;
+            color: white;
+            margin-bottom: 25px;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+        }
+
+        .modal-content .btn-login:hover {
+            background-color: #e0961f;
+        }
+
+        .modal-content .divider {
+            position: relative;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-content .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            border-top: 1px solid #ddd;
+            z-index: 1;
+        }
+
+        .modal-content .or-text {
+            background-color: white;
+            padding: 0 15px;
+            color: #888;
+            font-size: 0.9em;
+            position: relative;
+            z-index: 2;
+        }
+
+        .modal-content .social-login-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .modal-content .btn-social {
+            flex: 1;
+            color: white;
+            background-color: #dd4b39; /* Default to google color, we'll override below */
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .modal-content .btn-google {
+            background-color: #dd4b39;
+        }
+
+        .modal-content .btn-facebook {
+            background-color: #3b5998;
+        }
+
+
+        .modal-content .signup-prompt {
+            font-size: 0.95em;
+            color: #6a6a6a;
+        }
+
+        .modal-content .sign-up-link {
+            color: #f5a623;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 50px 5%;
+            }
+
+            .hero-text {
+                max-width: 100%;
+            }
+
+            .hero-sticker {
+                margin-top: 30px;
+                width: 200px;
+                height: 200px;
+            }
+            
+            .nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .nav-links {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app-root">
+        <!-- Content will be injected here by JavaScript -->
+    </div>
+
+    <!-- START LOGIN MODAL -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="hideModal('loginModal')">&times;</span>
+            <h2 class="welcome-header">Welcome Back</h2>
+            <p class="tagline">Login to DetoxApp to reclaim your time</p>
+
+            <form id="modal-login-form">
+                <div class="input-group">
+                    <label for="modal-email">Email Address</label>
+                    <input type="email" id="modal-email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="modal-password">Password</label>
+                    <input type="password" id="modal-password" placeholder="Enter your password" required>
+                </div>
+
+                <div class="options-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remember" id="modal-remember">
+                        Remember me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-login">Login</button>
+            </form>
+
+            <div class="divider">
+                <span class="or-text">OR</span>
+            </div>
+
+            <div class="social-login-group">
+                <button class="btn-social btn-google">Google</button>
+                <button class="btn-social btn-facebook">Facebook</button>
+            </div>
+
+            <div class="signup-prompt">
+                Don't have an account? <a href="#" class="sign-up-link">Sign Up</a>
+            </div>
+        </div>
+    </div>
+    <!-- END LOGIN MODAL -->
+
+    <script>
+        // --- CHART RENDERING FUNCTION ---
+        let dailyActivityChart = null; // To store chart instance and prevent recreation
+
+        function renderDailyActivityChart() {
+            const chartCanvas = document.getElementById('dailyActivityChart');
+            if (!chartCanvas) {
+                console.error("Chart canvas element not found.");
+                return; // Exit if the element is not yet in the DOM
+            }
+
+            // Attempt to get 2D context to ensure chart can render
+            const ctx = chartCanvas.getContext('2d');
+            if (!ctx) {
+                console.error("Could not get 2D context for chart canvas.");
+                return;
+            }
+
+            // Destroy previous chart instance if it exists
+            if (dailyActivityChart) {
+                dailyActivityChart.destroy();
+            }
+
+            // Mock Data showing a reduction in screen time over the week
+            const data = {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Screen Time (Hours)',
+                    data: [8.5, 7.8, 7.0, 6.2, 5.5, 4.5, 4.0],
+                    borderColor: '#4CAF50', // Green line color
+                    backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                    fill: true,
+                    tension: 0.4, // Smooth curve
+                    pointBackgroundColor: '#f5a623', // Orange points
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                }]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Allows the chart to fill the 300px height container
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: true,
+                            text: 'Your Weekly Detox Progress',
+                            font: { size: 16, weight: '500' },
+                            color: '#333'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 10,
+                            title: {
+                                display: true,
+                                text: 'Hours',
+                                color: '#6a6a6a'
+                            },
+                            ticks: {
+                                stepSize: 1
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            };
+
+            dailyActivityChart = new Chart(ctx, config);
+        }
+
+        // --- VIEW RENDERING FUNCTIONS ---
+        function showPage(htmlContent, afterRenderCallback = null) {
+            const appRoot = document.getElementById('app-root');
+            if (appRoot) {
+                appRoot.innerHTML = htmlContent;
+                window.scrollTo(0, 0); 
+                
+                if (afterRenderCallback) {
+                    // Call the callback function after the HTML content is injected
+                    afterRenderCallback();
+                }
+            }
+        }
+
+        // --- MODAL FUNCTIONS ---
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'flex';
+                // Trigger transition after display block
+                setTimeout(() => modal.classList.add('is-active'), 10);
+            }
+        }
+
+        function hideModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                // Trigger transition out
+                modal.classList.remove('is-active');
+                // Hide after transition
+                setTimeout(() => modal.style.display = 'none', 300);
+            }
+        }
+        
+        // Close modal if user clicks outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target === modal) {
+                hideModal('loginModal');
+            }
+        }
+
+
+        // --- SUCCESS VIEW HTML ---
+        function getSuccessPageHtml(email) {
+            return `
+                <div class="login-view">
+                    <div class="login-success">
+                        <h3><i class="fas fa-check-circle"></i> Login Successful!</h3>
+                        <p>Welcome, ${email}. You have reclaimed your time.</p>
+                        <button class="btn-dashboard" onclick="showPage(getHomePageHtml('Guest'), renderDailyActivityChart)">Continue to Home</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- HOME PAGE VIEW HTML ---
+        function getHomePageHtml(userName) {
+            return `
+                <div class="home-container" id="top-of-page">
+                    <!-- Navigation -->
+                    <nav class="nav">
+                        <div class="logo"><a href="#top-of-page" onclick="showPage(getHomePageHtml('Guest'), renderDailyActivityChart)">🌿 Digital Detox</a></div>
+                        <div class="nav-links">
+                            <a href="#chart-section">My Progress</a>
+                            <a href="#about-app-section">About</a>
+                            <a onclick="showPage(getFeaturesPageHtml())">Features</a>
+                            <a onclick="showPage(getChallengesPageHtml())">Challenges</a>
+                            <a href="#download-section">Download</a>
+                            <!-- LOGIN BUTTON -->
+                            <button class="btn-login-nav" onclick="showModal('loginModal')">Login</button>
+                        </div>
+                    </nav>
+
+                    <!-- CONTENT WRAPPER START -->
+                    <div class="content-wrapper">
+                        <!-- Hero Section -->
+                        <div class="hero">
+                            <div class="hero-text">
+                                <h1>Take a Break from the Screen</h1>
+                                <p>Reclaim your focus, improve your health, and live in the moment with our Digital Detox App.</p>
+                                <button class="btn-start-detox" onclick="showModal('alertModalStartDetox')">Start Your Detox</button>
+                            </div>
+                            
+                            <!-- Hero Sticker: Focus Badge -->
+                            <div class="hero-sticker">
+                                <i class="fas fa-hands-clapping sticker-icon"></i>
+                                <span class="sticker-text">Reclaim Your Focus</span>
+                            </div>
+                        </div>
+
+                        <!-- Daily Activity Chart Section -->
+                        <div class="chart-container-wrapper" id="chart-section">
+                            <div class="chart-card">
+                                <h3>Daily Screen Time Insights</h3>
+                                <!-- CHART WRAPPER ADDED FOR EXPLICIT HEIGHT -->
+                                <div class="chart-wrapper">
+                                    <canvas id="dailyActivityChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- About the App Section -->
+                        <div class="about-app" id="about-app-section">
+                            <div class="section-header">
+                                <h2>About the App</h2>
+                            </div>
+                            <p class="body-text-style">Our Digital Detox App is designed to help you disconnect from your phone and reconnect with life. Whether you want to reduce distractions, improve productivity, or simply live healthier, this app is your perfect companion.</p>
+                        </div>
+
+                        <!-- Get Started Today Section (DOWNLOAD) -->
+                        <div class="get-started" id="download-section">
+                            <div class="section-header">
+                                <h2>Ready to Reconnect?</h2>
+                            </div>
+                            <p class="body-text-style">Download DetoxApp today and start living a more focused, present, and mindful life.</p>
+                            
+                            <!-- DOWNLOAD BUTTONS -->
+                            <div class="store-buttons-group">
+                                <button class="btn-store" onclick="showModal('alertModalAppStore')">
+                                    <i class="fab fa-apple"></i>
+                                    <div>
+                                        <div class="store-text-small">Download on the</div>
+                                        <div class="store-text-large">App Store</div>
+                                    </div>
+                                </button>
+                                <button class="btn-store" onclick="showModal('alertModalGooglePlay')">
+                                    <i class="fab fa-google-play"></i>
+                                    <div>
+                                        <div class="store-text-small">Get it on</div>
+                                        <div class="store-text-large">Google Play</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CONTENT WRAPPER END -->
+
+                    <!-- Footer -->
+                    <footer class="footer">
+                        &copy; 2024 Digital Detox. All Rights Reserved.
+                    </footer>
+                </div>
+            `;
+        }
+
+        // --- FEATURES PAGE VIEW ---
+        function getFeaturesPageHtml() {
+            return `
+                <div class="home-container">
+                    <!-- Navigation for Features Page -->
+                    <nav class="nav">
+                        <div class="logo">🌿 Digital Detox</div>
+                        <div class="nav-links">
+                            <a onclick="showPage(getHomePageHtml('Guest'), renderDailyActivityChart)">← Back to Home</a>
+                            <button class="btn-login-nav" onclick="showModal('loginModal')">Login</button>
+                        </div>
+                    </nav>
+                    
+                    <!-- CONTENT WRAPPER START -->
+                    <div class="content-wrapper">
+                        <!-- Consolidated Header -->
+                        <div class="page-header">
+                            <h1 class="page-title">Core Features</h1>
+                            <h2 class="page-subtitle">Reclaim Your Time & Focus</h2>
+                        </div>
+
+                        <!-- Main Features Section -->
+                        <div class="card-container">
+                            <div class="card">
+                                <h3 class="icon-time"><i class="fas fa-clock icon"></i> Limit Screen Time</h3>
+                                <p>Track and reduce your mobile usage with smart reminders.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="icon-sleep"><i class="fas fa-bed icon"></i> Improve Sleep</h3>
+                                <p>Set bedtime reminders and reduce blue light exposure.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="icon-mind"><span class="icon">🍃</span> Boost Mindfulness</h3>
+                                <p>Engage in guided meditation and mindful breathing.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CONTENT WRAPPER END -->
+                    
+                    <!-- Footer -->
+                    <footer class="footer">
+                        &copy; 2024 Digital Detox. All Rights Reserved.
+                    </footer>
+                </div>
+            `;
+        }
+        
+        // --- CHALLENGES PAGE VIEW ---
+        function getChallengesPageHtml() {
+            return `
+                <div class="home-container">
+                    <!-- Navigation for Challenges Page -->
+                    <nav class="nav">
+                        <div class="logo">🌿 Digital Detox</div>
+                        <div class="nav-links">
+                            <a onclick="showPage(getHomePageHtml('Guest'), renderDailyActivityChart)">← Back to Home</a>
+                            <button class="btn-login-nav" onclick="showModal('loginModal')">Login</button>
+                        </div>
+                    </nav>
+
+                    <!-- CONTENT WRAPPER START -->
+                    <div class="content-wrapper">
+                        <!-- Consolidated Header -->
+                        <div class="page-header">
+                            <h1 class="page-title">Detox Challenges</h1>
+                            <h2 class="page-subtitle">Structured Programs for Success</h2>
+                        </div>
+
+                        <!-- Challenges Section -->
+                        <div class="card-container">
+                            <div class="card">
+                                <h3 class="icon-challenge"><i class="fas fa-calendar-alt icon"></i> 7-Day Detox</h3>
+                                <p>Challenge yourself to reduce phone use by 30% in just 7 days.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="icon-challenge"><i class="fas fa-book-open icon"></i> Reading Challenge</h3>
+                                <p>Replace 1 hour of scrolling with 1 hour of reading daily.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="icon-challenge"><i class="fas fa-mountain icon"></i> Outdoor Challenge</h3>
+                                <p>Spend at least 30 minutes outdoors without your phone.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CONTENT WRAPPER END -->
+                    
+                    <!-- Footer -->
+                    <footer class="footer">
+                        &copy; 2024 Digital Detox. All Rights Reserved.
+                    </footer>
+                </div>
+            `;
+        }
+
+        // --- ADVANCED TOOLS PAGE VIEW ---
+        function getAdvancedToolsPageHtml() {
+            return `
+                <div class="home-container">
+                    <!-- Navigation for Advanced Tools Page -->
+                    <nav class="nav">
+                        <div class="logo">🌿 Digital Detox</div>
+                        <div class="nav-links">
+                            <a onclick="showPage(getHomePageHtml('Guest'), renderDailyActivityChart)">← Back to Home</a>
+                            <button class="btn-login-nav" onclick="showModal('loginModal')">Login</button>
+                        </div>
+                    </nav>
+                    
+                    <!-- CONTENT WRAPPER START -->
+                    <div class="content-wrapper">
+                        <!-- Consolidated Header -->
+                        <div class="page-header">
+                            <h1 class="page-title">Advanced Tools</h1>
+                            <h2 class="page-subtitle">Insights, Relaxation, and Community</h2>
+                        </div>
+
+                        <!-- Other Features Section -->
+                        <div class="card-container">
+                            <div class="card">
+                                <h3 class="icon-report"><i class="fas fa-chart-bar icon"></i> Usage Reports</h3>
+                                <p>Get weekly and monthly insights about your screen time and usage patterns.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="icon-relax"><i class="fas fa-music icon"></i> Relaxation Tools</h3>
+                                <p>Access calming sounds, nature audio, and focus-friendly playlists to help you disconnect.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="icon-community"><i class="fas fa-users icon"></i> Community</h3>
+                                <p>Join supportive groups, share progress, and inspire others on their detox journey.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CONTENT WRAPPER END -->
+                    
+                    <!-- Footer -->
+                    <footer class="footer">
+                        &copy; 2024 Digital Detox. All Rights Reserved.
+                    </footer>
+                </div>
+            `;
+        }
+
+
+        // --- LOGIN HANDLER ---
+        function handleLogin(event) {
+            event.preventDefault(); 
+
+            const emailInput = document.getElementById('modal-email');
+            const email = emailInput.value;
+
+            // 1. Hide the modal
+            hideModal('loginModal'); 
+            
+            // 2. Redirect to the success page (simulating login success)
+            showPage(getSuccessPageHtml(email));
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start directly on the Home Page and render the chart immediately after
+            showPage(getHomePageHtml('Guest'), renderDailyActivityChart);
+        });
+
+        document.addEventListener('submit', function(event) {
+            // Attach handler to the modal's login form
+            if (event.target && event.target.id === 'modal-login-form') {
+                handleLogin(event);
+            }
+        });
+
+    </script>
+    
+    <!-- Custom Modals to replace alert() -->
+    <div id="alertModalStartDetox" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="hideModal('alertModalStartDetox')">&times;</span>
+            <h2 class="welcome-header" style="font-size: 1.5em; color: #4CAF50;">Detox Initiated</h2>
+            <p class="tagline" style="margin-bottom: 0;">Starting your personalized detox program now!</p>
+        </div>
+    </div>
+    <div id="alertModalAppStore" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="hideModal('alertModalAppStore')">&times;</span>
+            <h2 class="welcome-header" style="font-size: 1.5em; color: #4CAF50;">Redirecting...</h2>
+            <p class="tagline" style="margin-bottom: 0;">Redirecting to the Apple App Store for download.</p>
+        </div>
+    </div>
+    <div id="alertModalGooglePlay" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="hideModal('alertModalGooglePlay')">&times;</span>
+            <h2 class="welcome-header" style="font-size: 1.5em; color: #4CAF50;">Redirecting...</h2>
+            <p class="tagline" style="margin-bottom: 0;">Redirecting to the Google Play Store for download.</p>
+        </div>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calm/Neutral Mood Tasks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+</head>
+<body>
+    <div class="home-container">
+        <nav class="nav">
+            <div class="logo"><a href="{{ url_for('home') }}">🌿 Digital Detox</a></div>
+            <div class="nav-links">
+                <a href="{{ url_for('features') }}">← Back to Features</a>
+                <button class="btn-login-nav" onclick="showModal('loginModal')">Login</button>
+            </div>
+        </nav>
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h1 class="page-title">😌 Calm → Growth + Focus</h1>
+                <h2 class="page-subtitle">Tasks for a Calm/Neutral Mood</h2>
+            </div>
+            <div class="card-container" style="max-width:600px; margin:0 auto;">
+                <div class="card" style="background: #e0f7fa; border-left: 8px solid #17a2b8;">
+                    <h3 style="color:#17a2b8; font-size:1.2em; margin-bottom:18px;"><i class="fas fa-leaf"></i> Calm/Neutral Tasks</h3>
+                    <div style="display:flex; flex-direction:column; gap:18px;">
+                        <div style="background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(23,162,184,0.08); padding:18px; display:flex; align-items:center;">
+                            <span style="font-size:1.7em; margin-right:16px;">📚</span>
+                                <a href="{{ url_for('calm_books') }}" style="text-decoration:none;">
+                                    <span style="font-size:1.05em;">Read 5–10 pages of a book</span>
+                                </a>
+                        </div>
+                        <div style="background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(23,162,184,0.08); padding:18px; display:flex; align-items:center;">
+                            <span style="font-size:1.7em; margin-right:16px;">🧘‍♂️</span>
+                            <span style="font-size:1.05em;">Meditate for 5 minutes</span>
+                        </div>
+                        <div style="background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(23,162,184,0.08); padding:18px; display:flex; align-items:center;">
+                            <span style="font-size:1.7em; margin-right:16px;">✅</span>
+                            <span style="font-size:1.05em;">Do a small productive task (study, coding, cleaning)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            &copy; 2024 Digital Detox. All Rights Reserved.
+        </footer>
+    </div>
+</body>
+</html>

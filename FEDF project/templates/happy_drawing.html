@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing Board</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <style>
+        .drawing-board {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(60,60,120,0.10);
+            padding: 2rem;
+            max-width: 700px;
+            margin: 40px auto;
+        }
+        canvas {
+            border: 2px solid #43cea2;
+            border-radius: 12px;
+            background: #f7f7fa;
+            display: block;
+            margin: 0 auto;
+        }
+        .drawing-controls {
+            margin-top: 18px;
+            text-align: center;
+        }
+        .drawing-controls button {
+            background: #43cea2;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 22px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 0 8px;
+        }
+        .drawing-controls button:hover {
+            background: #185a9d;
+        }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <nav class="nav">
+            <div class="logo"><a href="{{ url_for('home') }}">🌿 Digital Detox</a></div>
+            <div class="nav-links">
+                <a href="{{ url_for('happy_hobby') }}">← Back to Hobbies</a>
+            </div>
+        </nav>
+        <div class="drawing-board">
+            <h2 style="text-align:center;">Drawing Board</h2>
+            <canvas id="canvas" width="600" height="400"></canvas>
+            <div class="drawing-controls">
+                <button onclick="clearCanvas()">Clear</button>
+                <button onclick="saveCanvas()">Save</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        canvas.addEventListener('mousedown', () => { drawing = true; });
+        canvas.addEventListener('mouseup', () => { drawing = false; ctx.beginPath(); });
+        canvas.addEventListener('mousemove', draw);
+        function draw(e) {
+            if (!drawing) return;
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#43cea2';
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        }
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        function saveCanvas() {
+            const link = document.createElement('a');
+            link.download = 'drawing.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>

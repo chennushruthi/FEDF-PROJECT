@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write Down Your Thoughts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <style>
+        .note-card {
+            background: #f6fffc;
+            border-left: 10px solid #20c997;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(32,201,151,0.10);
+            padding: 40px 36px 32px 36px;
+            max-width: 480px;
+            width: 100%;
+            margin: 60px auto;
+        }
+        .note-title {
+            color: #20c997;
+            margin-bottom: 18px;
+            font-size: 1.3em;
+            text-align: center;
+            font-weight: 700;
+        }
+        .note-area {
+            width: 100%;
+            min-height: 120px;
+            border-radius: 10px;
+            border: 1.5px solid #20c997;
+            padding: 14px;
+            font-size: 1.1em;
+            margin-bottom: 18px;
+            resize: vertical;
+        }
+        .save-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 12px 36px;
+            background: #20c997;
+            color: #fff;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .save-btn:hover {
+            background: #138f6a;
+        }
+        .note-success {
+            color: #138f6a;
+            text-align: center;
+            margin-top: 18px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="note-card">
+        <h2 class="note-title">Write Down Your Thoughts</h2>
+        <form method="POST">
+            <textarea class="note-area" name="note_text" placeholder="Type your thoughts here...">{{ note_text or '' }}</textarea>
+            <button type="submit" class="save-btn">Save</button>
+        </form>
+        {% if message %}
+        <div class="note-success">{{ message }}</div>
+        {% endif %}
+        <a href="{{ url_for('angry_tasks_level', level=2) }}" class="back-btn" style="margin-top:24px;">&#8592; Back to Mild Tasks</a>
+    </div>
+</body>
+</html>

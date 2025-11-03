@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DetoxApp: Home & Login Modal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Chart.js for the line graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+</head>
+<body>
+    <div class="home-container" id="top-of-page">
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="logo"><a href="{{ url_for('home') }}">🌿 Digital Detox</a></div>
+            <div class="nav-links">
+                <a href="{{ url_for('my_progress') }}">My Progress</a>
+                <a href="#about-app-section">About</a>
+                <a href="{{ url_for('features') }}">Features</a>
+                <a href="/features/calm/challenges">Challenges</a>
+                <a href="/features/history">History</a>
+                <a href="#download-section">Download</a>
+                {% if not session.logged_in %}
+                <a href="{{ url_for('login') }}"><button class="btn-login-nav">Login</button></a>
+                {% else %}
+                <a href="{{ url_for('logout') }}"><button class="btn-login-nav">Logout</button></a>
+                {% endif %}
+            </div>
+        </nav>
+
+        <!-- CONTENT WRAPPER START -->
+        <div class="content-wrapper">
+            <!-- Hero Section -->
+            <div class="hero">
+                <div class="hero-text">
+                    <h1>Take a Break from the Screen</h1>
+                    <p>Reclaim your focus, improve your health, and live in the moment with our Digital Detox App.</p>
+                    <button class="btn-start-detox" onclick="showModal('alertModalStartDetox')">Start Your Detox</button>
+                </div>
+                <!-- Hero Sticker: Focus Badge -->
+                <div class="hero-sticker">
+                    <i class="fas fa-hands-clapping sticker-icon"></i>
+                    <span class="sticker-text">Reclaim Your Focus</span>
+                </div>
+            </div>
+
+            <!-- Daily Activity Chart Section -->
+            <div class="chart-container-wrapper" id="chart-section">
+                <div class="chart-card">
+                    <h3>Daily Screen Time Insights</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="dailyActivityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About the App Section -->
+            <div class="about-app" id="about-app-section">
+                <div class="section-header">
+                    <h2>About the App</h2>
+                </div>
+                <p class="body-text-style">Our Digital Detox App is designed to help you disconnect from your phone and reconnect with life. Whether you want to reduce distractions, improve productivity, or simply live healthier, this app is your perfect companion.</p>
+            </div>
+
+            <!-- Features Section -->
+            <div id="features-section">
+                <div class="section-header">
+                    <h2>Core Features</h2>
+                </div>
+                <div class="card-container">
+                    <div class="card">
+                        <h3 class="icon-time"><i class="fas fa-clock icon"></i> Limit Screen Time</h3>
+                        <p>Track and reduce your mobile usage with smart reminders.</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="icon-sleep"><i class="fas fa-bed icon"></i> Improve Sleep</h3>
+                        <p>Set bedtime reminders and reduce blue light exposure.</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="icon-mind"><span class="icon">🍃</span> Boost Mindfulness</h3>
+                        <p>Engage in guided meditation and mindful breathing.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Challenges Section -->
+            <div id="challenges-section">
+                <div class="section-header">
+                    <h2>Detox Challenges</h2>
+                    <h3 class="page-subtitle">Structured Programs for Success</h3>
+                </div>
+                <div class="card-container">
+                    <div class="card">
+                        <h3 class="icon-challenge"><i class="fas fa-calendar-alt icon"></i> 7-Day Detox</h3>
+                        <p>Challenge yourself to reduce phone use by 30% in just 7 days.</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="icon-challenge"><i class="fas fa-book-open icon"></i> Reading Challenge</h3>
+                        <p>Replace 1 hour of scrolling with 1 hour of reading daily.</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="icon-challenge"><i class="fas fa-mountain icon"></i> Outdoor Challenge</h3>
+                        <p>Spend at least 30 minutes outdoors without your phone.</p>
+                    </div>
+                    <!-- History card and box removed as requested -->
+                </div>
+            </div>
+
+            <!-- Get Started Today Section (DOWNLOAD) -->
+            <div class="get-started" id="download-section">
+                <div class="section-header">
+                    <h2>Ready to Reconnect?</h2>
+                </div>
+                <p class="body-text-style">Download DetoxApp today and start living a more focused, present, and mindful life.</p>
+                <div class="store-buttons-group">
+                    <button class="btn-store" onclick="showModal('alertModalAppStore')">
+                        <i class="fab fa-apple"></i>
+                        <div>
+                            <div class="store-text-small">Download on the</div>
+                            <div class="store-text-large">App Store</div>
+                        </div>
+                    </button>
+                    <button class="btn-store" onclick="showModal('alertModalGooglePlay')">
+                        <i class="fab fa-google-play"></i>
+                        <div>
+                            <div class="store-text-small">Get it on</div>
+                            <div class="store-text-large">Google Play</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- CONTENT WRAPPER END -->
+
+        <!-- Footer -->
+        <footer class="footer">
+            &copy; 2025 Digital Detox. All Rights Reserved.
+        </footer>
+    </div>
+
+    <!-- START LOGIN MODAL -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="hideModal('loginModal')">&times;</span>
+            <script>
+                // Injected data from Flask
+                var weekLabels = {{ week_labels|default('["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]')|tojson|safe }};
+                var weekData = {{ week_data|default('[0, 0, 0, 0, 0, 0, 0]')|tojson|safe }};
+                var predictedLabels = {{ predicted_labels|default('[]')|tojson|safe }};
+                var predictedData = {{ predicted_data|default('[]')|tojson|safe }};
+                
+                // --- CHART RENDERING FUNCTION ---
+                let dailyActivityChart = null;
+                function renderDailyActivityChart() {
+                    const chartCanvas = document.getElementById('dailyActivityChart');
+                    if (!chartCanvas) return;
+                    const ctx = chartCanvas.getContext('2d');
+                    if (!ctx) return;
+                    if (dailyActivityChart) dailyActivityChart.destroy();
+                    
+                    const data = {
+                        labels: weekLabels.concat(predictedLabels),
+                        datasets: [
+                            {
+                                label: 'Actual Detox Progress',
+                                data: weekData.concat(Array(predictedData.length).fill(null)),
+                                borderColor: '#9c27b0',
+                                backgroundColor: 'rgba(156, 39, 176, 0.18)',
+                                pointBackgroundColor: '#ba68c8',
+                                pointRadius: 5,
+                                pointHoverRadius: 7,
+                                tension: 0.4,
+                            },
+                            {
+                                label: 'Predicted Progress',
+                                data: Array(weekData.length).fill(null).concat(predictedData),
+                                borderColor: '#7b1fa2',
+                                backgroundColor: 'rgba(123, 31, 162, 0.12)',
+                                pointBackgroundColor: '#ce93d8',
+                                borderDash: [6, 4],
+                                pointRadius: 5,
+                                pointHoverRadius: 7,
+                                tension: 0.4,
+                            }
+                        ]
+                    };
+                    const config = {
+                        type: 'line',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: true },
+                                title: {
+                                    display: true,
+                                    text: 'Your Weekly Detox Progress',
+                                    font: { size: 16, weight: '500' },
+                                    color: '#333'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    min: 0,
+                                    max: 10,
+                                    title: { display: true, text: 'Challenges Completed', color: '#6a6a6a' },
+                                    ticks: { stepSize: 1 }
+                                },
+                                x: { grid: { display: false } }
+                            }
+                        }
+                    };
+                    dailyActivityChart = new Chart(ctx, config);
+                }
+                // --- MODAL FUNCTIONS ---
+                function showModal(modalId) {
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.style.display = 'flex';
+                        setTimeout(() => modal.classList.add('is-active'), 10);
+                    }
+                }
+                function hideModal(modalId) {
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.classList.remove('is-active');
+                        setTimeout(() => modal.style.display = 'none', 300);
+                    }
+                }
+                window.onclick = function(event) {
+                    const modal = document.getElementById('loginModal');
+                    if (event.target === modal) hideModal('loginModal');
+                }
+                document.addEventListener('DOMContentLoaded', renderDailyActivityChart);
+            </script>
+                    }
+                }
+            };
+
+            dailyActivityChart = new Chart(ctx, config);
+        }
+
+        // --- VIEW RENDERING FUNCTIONS ---
+        function showPage(htmlContent, afterRenderCallback = null) {
+            const appRoot = document.getElementById('app-root');
+            if (appRoot) {
+                appRoot.innerHTML = htmlContent;
+                window.scrollTo(0, 0); 
+                
+                if (afterRenderCallback) {
+                    // Call the callback function after the HTML content is injected
+                    afterRenderCallback();
+                }
+            }
+        }
+
+        // --- MODAL FUNCTIONS ---
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'flex';
+                // Trigger transition after display block
+                setTimeout(() => modal.classList.add('is-active'), 10);
+            }
+        }
+
+        function hideModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                // Trigger transition out
+                modal.classList.remove('is-active');
+                // Hide after transition
+                setTimeout(() => modal.style.display = 'none', 300);
+            }
+        }
+        
+        // Close modal if user clicks outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target === modal) {
+                hideModal('loginModal');
+            }
+        }
+
+
+        // --- SUCCESS VIEW HTML ---
+        function getSuccessPageHtml(email) {
+            return `
+                <div class="login-view">
+                    <div class="login-success">
+                        <h3><i class="fas fa-check-circle"></i> Login Successful!</h3>
+                        <p>Welcome, ${email}. You have reclaimed your time.</p>
+                        <button class="btn-dashboard" onclick="showPage(getHomePageHtml('Guest'), renderDailyActivityChart)">Continue to Home</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- HOME PAGE VIEW HTML ---
+        function getHomePageHtml(userName) {
+            return `
+                <div class="home-container" id="top-of-page">
+                    <!-- Navigation -->
+                    <nav class="nav">
+                        <div class="logo"><a href="#top-of-page" onclick="showPage(getHomePageHtml('Guest'), renderDailyActivityChart)">🌿 Digital Detox</a></div>
+                        <div class="nav-links">
+                            <a href="#chart-section">My Progress</a>
+                            <a href="#about-app-section">About</a>
+                            <a onclick="showPage(getFeaturesPageHtml())">Features</a>
+                            <a href="/features/calm/challenges">Challenges</a>
+                            <a href="#download-section">Download</a>
+                            <!-- LOGIN BUTTON -->
+                            <button class="btn-login-nav" onclick="showModal('loginModal')">Login</button>
+                        </div>
+                    </nav>
+
+                    <!-- CONTENT WRAPPER START -->
+                    <div class="content-wrapper">
+                        <!-- Hero Section -->
+                        <div class="hero">
+                            <div class="hero-text">
+                                <h1>Take a Break from the Screen</h1>
+                                <p>Reclaim your focus, improve your health, and live in the moment with our Digital Detox App.</p>
+                                <button class="btn-start-detox" onclick="showModal('alertModalStartDetox')">Start Your Detox</button>
+                            </div>
+                            
+                            <!-- Hero Sticker: Focus Badge -->
+                            <div class="hero-sticker">
+                                <i class="fas fa-hands-clapping sticker-icon"></i>
+                                <span class="sticker-text">Reclaim Your Focus</span>
+                            </div>
+                        </div>
+
+                        <!-- Daily Activity Chart Section -->
+                        <div class="chart-container-wrapper" id="chart-section">
+                            <div class="chart-card">
+                                <h3>Daily Screen Time Insights</h3>
+                                <!-- CHART WRAPPER ADDED FOR EXPLICIT HEIGHT -->
+                                <div class="chart-wrapper">
+                                    <canvas id="dailyActivityChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- About the App Section -->
+                        <div class="about-app" id="about-app-section">
+                            <div class="section-header">
+                                <h2>About the App</h2>
+                            </div>
+                            <p class="body-text-style">Our Digital Detox App is designed to help you disconnect from your phone and reconnect with life. Whether you want to reduce distractions, improve productivity, or simply live healthier, this app is your perfect companion.</p>
+                        </div>
+
+                        <!-- Get Started Today Section (DOWNLOAD) -->
+                        <div class="get-started" id="download-section">
+                            <div class="section-header">
+                                <h2>Ready to Reconnect?</h2>
+                            </div>
+                            <p class="body-text-style">Download DetoxApp today and start living a more focused, present, and mindful life.</p>
+                            
+                            <!-- DOWNLOAD BUTTONS -->
+                            <div class="store-buttons-group">
+                                <button class="btn-store" onclick="showModal('alertModalAppStore')">
+                                    <i class="fab fa-apple"></i>
+                                    <div>
+                                        <div class="store-text-small">Download on the</div>
+                                        <div class="store-text-large">App Store</div>
+                                    </div>
+                                </button>
+                                <button class="btn-store" onclick="showModal('alertModalGooglePlay')">
+                                    <i class="fab fa-google-play"></i>
+                                    <div>
+                                        <div class="store-text-small">Get it on</div>
+                                        <div class="store-text-large">Google Play</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CONTENT WRAPPER END -->
+
+                    <!-- Footer -->
+                    <footer class="footer">
+                        &copy; 2025 Digital Detox. All Rights Reserved.
+                    </footer>
+                </div>
+            `;
+        }
+
+        // --- FEATURES PAGE VIEW ---
+        function getFeaturesPageHtml() {
+            return `
+                <div class="home-container">
+                    <!-- Navigation for Features Page -->
+                    <nav class="nav">
+                        <div class="logo">🌿 Digital Detox</div>
+                        <div class="nav-links">
+                            <a onclick="showPage(getHomePageHtml('Guest'), renderDailyActivityChart)">← Back to Home</a>
+                            <button class="btn-login-nav" onclick="showModal('loginModal')">Login</button>
+                        </div>
+                    </nav>
+                    
+                    <!-- CONTENT WRAPPER START -->
+                    <div class="content-wrapper">
+                        <!-- Consolidated Header -->
+                        <div class="page-header">
+                            <h1 class="page-title">Core Features</h1>
+                            <h2 class="page-subtitle">Reclaim Your Time & Focus</h2>
+                        </div>
+
+                        <div class="card-container">
+                            <div class="card">
+                                <h3 class="icon-time"><i class="fas fa-clock icon"></i> Limit Screen Time</h3>
+                                <p>Track and reduce your mobile usage with smart reminders.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="icon-sleep"><i class="fas fa-bed icon"></i> Improve Sleep</h3>
+                                <p>Set bedtime reminders and reduce blue light exposure.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="icon-mind"><span class="icon">🍃</span> Boost Mindfulness</h3>
+                                <p>Engage in guided meditation and mindful breathing.</p>
+                            </div>
+                        </div>
+                        </script>
+                    </div>
+                    <!-- CONTENT WRAPPER END -->
+                    
+                    <!-- Footer -->
+                    <footer class="footer">
+                        &copy; 2025 Digital Detox. All Rights Reserved.
+                    </footer>
+                </div>
+            `;
+        }
+        
+        // --- CHALLENGES PAGE VIEW ---
+        function getChallengesPageHtml() {
+            return `
+                <div class="home-container">
+                    <!-- Navigation for Challenges Page -->
+                    <nav class="nav">
+                        <div class="logo">🌿 Digital Detox</div>
+                        <div class="nav-links">
+                            <a onclick="showPage(getHomePageHtml('Guest'), renderDailyActivityChart)">← Back to Home</a>
+                            <button class="btn-login-nav" onclick="showModal('loginModal')">Login</button>
+                        </div>
+                    </nav>
+
+                    <!-- CONTENT WRAPPER START -->
+                    <div class="content-wrapper">
+                        <!-- Consolidated Header -->
+                        <div class="page-header">
+                            <h1 class="page-title">Detox Challenges</h1>
+                            <h2 class="page-subtitle">Structured Programs for Success</h2>
+                        </div>
+
+                        <!-- Challenges Section -->
+                        <div class="card-container">
+                            <div class="card">
+                                <h3 class="icon-challenge"><i class="fas fa-calendar-alt icon"></i> 7-Day Detox</h3>
+                                <p>Challenge yourself to reduce phone use by 30% in just 7 days.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="icon-challenge"><i class="fas fa-book-open icon"></i> Reading Challenge</h3>
+                                <p>Replace 1 hour of scrolling with 1 hour of reading daily.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="icon-challenge"><i class="fas fa-mountain icon"></i> Outdoor Challenge</h3>
+                                <p>Spend at least 30 minutes outdoors without your phone.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CONTENT WRAPPER END -->
+                    
+                    <!-- Footer -->
+                    <footer class="footer">
+                        &copy; 2025 Digital Detox. All Rights Reserved.
+                    </footer>
+                </div>
+            `;
+        }
+
+        // --- ADVANCED TOOLS PAGE VIEW ---
+        function getAdvancedToolsPageHtml() {
+            return `
+                <div class="home-container">
+                    <!-- Navigation for Advanced Tools Page -->
+                    <nav class="nav">
+                        <div class="logo">🌿 Digital Detox</div>
+                        <div class="nav-links">
+                            <a onclick="showPage(getHomePageHtml('Guest'), renderDailyActivityChart)">← Back to Home</a>
+                            <button class="btn-login-nav" onclick="showModal('loginModal')">Login</button>
+                        </div>
+                    </nav>
+                    
+                    <!-- CONTENT WRAPPER START -->
+                    <div class="content-wrapper">
+                        <!-- Consolidated Header -->
+                        <div class="page-header">
+                            <h1 class="page-title">Advanced Tools</h1>
+                            <h2 class="page-subtitle">Insights, Relaxation, and Community</h2>
+                        </div>
+
+                        <!-- Other Features Section -->
+                        <div class="card-container">
+                            <div class="card">
+                                <h3 class="icon-report"><i class="fas fa-chart-bar icon"></i> Usage Reports</h3>
+                                <p>Get weekly and monthly insights about your screen time and usage patterns.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="icon-relax"><i class="fas fa-music icon"></i> Relaxation Tools</h3>
+                                <p>Access calming sounds, nature audio, and focus-friendly playlists to help you disconnect.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="icon-community"><i class="fas fa-users icon"></i> Community</h3>
+                                <p>Join supportive groups, share progress, and inspire others on their detox journey.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CONTENT WRAPPER END -->
+                    
+                    <!-- Footer -->
+                    <footer class="footer">
+                        &copy; 2025 Digital Detox. All Rights Reserved.
+                    </footer>
+                </div>
+            `;
+        }
+
+
+        // --- LOGIN HANDLER ---
+        function handleLogin(event) {
+            event.preventDefault(); 
+
+            const emailInput = document.getElementById('modal-email');
+            const email = emailInput.value;
+
+            // 1. Hide the modal
+            hideModal('loginModal'); 
+            
+            // 2. Redirect to the success page (simulating login success)
+            showPage(getSuccessPageHtml(email));
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start directly on the Home Page and render the chart immediately after
+            showPage(getHomePageHtml('Guest'), renderDailyActivityChart);
+        });
+
+        document.addEventListener('submit', function(event) {
+            // Attach handler to the modal's login form
+            if (event.target && event.target.id === 'modal-login-form') {
+                handleLogin(event);
+            }
+        });
+
+    </script>
+    
+    <!-- Custom Modals to replace alert() -->
+    <div id="alertModalStartDetox" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="hideModal('alertModalStartDetox')">&times;</span>
+            <h2 class="welcome-header" style="font-size: 1.5em; color: #4CAF50;">Detox Initiated</h2>
+            <p class="tagline" style="margin-bottom: 0;">Starting your personalized detox program now!</p>
+        </div>
+    </div>
+    <div id="alertModalAppStore" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="hideModal('alertModalAppStore')">&times;</span>
+            <h2 class="welcome-header" style="font-size: 1.5em; color: #4CAF50;">Redirecting...</h2>
+            <p class="tagline" style="margin-bottom: 0;">Redirecting to the Apple App Store for download.</p>
+        </div>
+    </div>
+    <div id="alertModalGooglePlay" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="hideModal('alertModalGooglePlay')">&times;</span>
+            <h2 class="welcome-header" style="font-size: 1.5em; color: #4CAF50;">Redirecting...</h2>
+            <p class="tagline" style="margin-bottom: 0;">Redirecting to the Google Play Store for download.</p>
+        </div>
+    </div>
+    
+</body>
+</html>

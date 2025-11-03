@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>7-Day Detox Plan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <style>
+        .main-title {
+            text-align: center;
+            color: #ffb300;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-top: 50px;
+        }
+        .detox-plan {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 32px 24px;
+        }
+        .detox-day {
+            margin-bottom: 28px;
+        }
+        .detox-day-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffb300;
+            margin-bottom: 8px;
+        }
+        .detox-day-details {
+            color: #444;
+            font-size: 1rem;
+            margin-left: 18px;
+        }
+        .back-link {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: #ffb300;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 18px 0 14px 0;
+            text-decoration: none;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.07);
+            z-index: 100;
+            transition: background 0.2s;
+        }
+        .back-link:hover {
+            background: #ffa000;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-title">7-Day Detox Plan</div>
+    <div class="detox-plan">
+        {% for day in plan %}
+            <div class="detox-day">
+                <div class="detox-day-title">{{ day.day }}</div>
+                <ul class="detox-day-details">
+                    {% for detail in day.details %}
+                        <li>{{ detail }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="/features/calm/challenges" class="back-link"><i class="fas fa-arrow-left" style="margin-right:8px;"></i>Back to Challenges</a>
+</body>
+</html>

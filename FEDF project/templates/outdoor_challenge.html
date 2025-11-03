@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Outdoor Challenge Options</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homewithgraph.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .main-title {
+            text-align: center;
+            color: #ffb300;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-top: 50px;
+        }
+        .category-container {
+            max-width: 800px;
+            margin: 40px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: center;
+        }
+        .category-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 32px 24px;
+            width: 320px;
+            text-align: center;
+            transition: box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .category-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            background: #fffbe6;
+        }
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            color: #ffb300;
+        }
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .category-desc {
+            color: #666;
+            font-size: 1.05rem;
+        }
+        .back-link {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: #ffb300;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 18px 0 14px 0;
+            text-decoration: none;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.07);
+            z-index: 100;
+            transition: background 0.2s;
+        }
+        .back-link:hover {
+            background: #ffa000;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-title">Outdoor Challenge Options</div>
+    <div class="category-container">
+        {% for cat in categories %}
+        <div class="category-card">
+            {% if cat.name == 'Physical / Fitness Challenges' %}
+            <a href="/features/calm/challenges/outdoor/physical" style="text-decoration:none; color:inherit;">
+                <div class="category-icon"><i class="fas {{ cat.icon }}"></i></div>
+                <div class="category-title">{{ cat.name }}</div>
+                <div class="category-desc">{{ cat.desc }}</div>
+            </a>
+            {% else %}
+            {% if cat.name == 'Physical / Fitness Challenges' %}
+            <a href="/features/calm/challenges/outdoor/physical" style="text-decoration:none; color:inherit;">
+                <div class="category-icon"><i class="fas {{ cat.icon }}"></i></div>
+                <div class="category-title">{{ cat.name }}</div>
+                <div class="category-desc">{{ cat.desc }}</div>
+            </a>
+            {% elif cat.name == 'Mindfulness / Nature Challenges' %}
+            <a href="/features/calm/challenges/outdoor/mindfulness" style="text-decoration:none; color:inherit;">
+                <div class="category-icon"><i class="fas {{ cat.icon }}"></i></div>
+                <div class="category-title">{{ cat.name }}</div>
+                <div class="category-desc">{{ cat.desc }}</div>
+            </a>
+            {% elif cat.name == 'Social / Fun Challenges' %}
+            <a href="/features/calm/challenges/outdoor/social" style="text-decoration:none; color:inherit;">
+                <div class="category-icon"><i class="fas {{ cat.icon }}"></i></div>
+                <div class="category-title">{{ cat.name }}</div>
+                <div class="category-desc">{{ cat.desc }}</div>
+            </a>
+            {% elif cat.name == 'Adventure / Exploration Challenges' %}
+            <a href="/features/calm/challenges/outdoor/adventure" style="text-decoration:none; color:inherit;">
+                <div class="category-icon"><i class="fas {{ cat.icon }}"></i></div>
+                <div class="category-title">{{ cat.name }}</div>
+                <div class="category-desc">{{ cat.desc }}</div>
+            </a>
+            {% else %}
+            <div class="category-icon"><i class="fas {{ cat.icon }}"></i></div>
+            <div class="category-title">{{ cat.name }}</div>
+            <div class="category-desc">{{ cat.desc }}</div>
+            {% endif %}
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    <a href="/features/calm/challenges" class="back-link"><i class="fas fa-arrow-left" style="margin-right:8px;"></i>Back to Challenges</a>
+</body>
+</html>
